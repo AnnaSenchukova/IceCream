@@ -1,0 +1,11 @@
+# ── JetBrains IDE (IDEA / WebStorm) ──
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# ── macOS ──
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
