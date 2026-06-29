@@ -3,23 +3,12 @@
 (function () {
   var SLOTS = 3;
 
-  var FLAVORS = [
-    { id: 'vanilla',    name: 'Ваниль Бурбон', price: 180, color: '#ecdcc0', badge: null,  slug: 'ice-cream-vanilla' },
-    { id: 'pistachio',  name: 'Фисташка',      price: 240, color: '#bcc89a', badge: 'HIT', slug: 'ice-cream-pistachio' },
-    { id: 'strawberry', name: 'Клубника',      price: 210, color: '#e3a9a4', badge: null,  slug: 'ice-cream-strawberry' },
-    { id: 'chocolate',  name: 'Тёмный шоколад', price: 230, color: '#9c6b52', badge: 'NEW', slug: 'ice-cream-chocolate' },
-    { id: 'matcha',     name: 'Матча',          price: 250, color: '#a7bf91', badge: null,  slug: 'ice-cream-matcha' },
-    { id: 'caramel',    name: 'Солёная карамель', price: 220, color: '#d8a86a', badge: 'HIT', slug: 'ice-cream-caramel' }
-  ];
-
   var STATUS = [
     'Выбери 3 шарика',
     'Добавь ещё 2 шарика',
     'Добавь ещё один шарик',
     'Ваше мороженое готово'
   ];
-
-  var state = { scoops: [], cart: 0 };
 
   var listEl = document.querySelector('[data-flavors]');
   var slotsEl = document.querySelector('[data-slots]');
@@ -29,42 +18,34 @@
   var visualEl = document.querySelector('[data-builder-visual]');
   var cartCountEl = document.querySelector('[data-cart-count]');
 
-  function flavorById(id) {
-    for (var i = 0; i < FLAVORS.length; i++) {
-      if (FLAVORS[i].id === id) return FLAVORS[i];
-    }
-    return null;
+  if (!listEl || !slotsEl || !buttonEl) return;
+
+  /* Build the flavor lookup by reading the static HTML markup (DOM is the
+     single source of truth — prices and names stay visible without JS). */
+  var FLAVORS = {};
+  var cards = listEl.querySelectorAll('[data-flavor]');
+  for (var c = 0; c < cards.length; c++) {
+    var card = cards[c];
+    var id = card.getAttribute('data-flavor');
+    FLAVORS[id] = {
+      id: id,
+      name: card.getAttribute('data-name'),
+      price: parseInt(card.getAttribute('data-price'), 10),
+      color: card.getAttribute('data-color')
+    };
   }
 
-  function renderCatalog() {
-    var html = '';
-    for (var i = 0; i < FLAVORS.length; i++) {
-      var f = FLAVORS[i];
-      var badge = f.badge
-        ? '<span class="card__badge">' + f.badge + '</span>'
-        : '';
-      html +=
-        '<li class="catalog__card card" data-flavor="' + f.id + '">' +
-          '<button class="card__button" type="button" aria-label="Добавить шарик: ' + f.name + ', ' + f.price + ' рублей">' +
-            '<span class="card__visual" style="--card-color:' + f.color + '">' +
-              badge +
-              '<span class="card__price">' + f.price + ' ₽</span>' +
-            '</span>' +
-            '<span class="card__title">' + f.name + '</span>' +
-          '</button>' +
-        '</li>';
-    }
-    listEl.innerHTML = html;
-  }
+  var state = { scoops: [], cart: 0 };
 
   function renderSlots() {
     var nodes = slotsEl.children;
     for (var i = 0; i < SLOTS; i++) {
       var slot = nodes[i];
+      if (!slot) continue;
       var scoopId = state.scoops[i];
       slot.innerHTML = '';
-      if (scoopId) {
-        var f = flavorById(scoopId);
+      if (scoopId && FLAVORS[scoopId]) {
+        var f = FLAVORS[scoopId];
         slot.className = 'builder__slot builder__slot--filled';
         slot.innerHTML =
           '<span class="builder__scoop" style="--scoop-color:' + f.color + '"></span>' +
@@ -82,7 +63,7 @@
   function totalPrice() {
     var sum = 0;
     for (var i = 0; i < state.scoops.length; i++) {
-      sum += flavorById(state.scoops[i]).price;
+      sum += FLAVORS[state.scoops[i]].price;
     }
     return sum;
   }
@@ -105,7 +86,7 @@
   }
 
   function addScoop(id) {
-    if (state.scoops.length >= SLOTS) return;
+    if (!FLAVORS[id] || state.scoops.length >= SLOTS) return;
     state.scoops.push(id);
     render();
   }
@@ -149,6 +130,9 @@
 
   buttonEl.addEventListener('click', checkout);
 
-  renderCatalog();
+  /* Mark builder as JS-enhanced — enables interactive styling hooks. */
+  var builderEl = document.querySelector('[data-builder]');
+  if (builderEl) builderEl.classList.add('builder--ready');
+
   render();
 })();
