@@ -341,6 +341,15 @@ button {
   position: relative;
 }
 
+/* Keep the flavor grid from spilling its cards on the narrowest screens. */
+.catalog__list {
+  overflow: clip;
+}
+
+.card {
+  min-width: 0;
+}
+
 .catalog__inner {
   display: flex;
   flex-direction: column;
@@ -357,9 +366,20 @@ button {
   position: relative;
   z-index: 2;
   margin-top: 0;
-  padding: var(--space-8) var(--space-3) var(--space-6);
+  /* Pull out of the .container side gutters so the accent background spans the
+     full screen width. Vertical padding stays; horizontal padding is 0 (the ul
+     gets its own inner gutter below). */
+  margin-inline: calc(-1 * var(--space-container));
+  padding: var(--space-8) 0 var(--space-6);
   background-color: var(--color-bg-accent);
   border-radius: var(--radius-block) var(--radius-block) var(--space-6) var(--space-6);
+}
+
+/* The flavor grid keeps the container max-width + inner gutters, centered. */
+.catalog__list {
+  max-width: 1500px;
+  margin-inline: auto;
+  padding-inline: var(--space-container);
 }
 
 .catalog__pill {
@@ -471,12 +491,15 @@ button {
   left: -8px;
   bottom: 52px;
   margin: 0;
+  padding: var(--space-1) var(--space-3);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-card-price);
   line-height: var(--leading-price);
   text-transform: uppercase;
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
+  background-color: var(--color-button-bg);
+  border-radius: var(--radius-pill);
 }
 
 .card__badge {
@@ -778,7 +801,7 @@ button {
    cuts the cone too high. */
 .builder__visual {
   height: auto;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 5 / 4;
   align-items: flex-start;
   overflow: hidden;
 }
@@ -798,7 +821,7 @@ button {
 .builder__button {
   position: relative;
   z-index: 4;
-  margin-top: var(--space-3);
+  margin-top: 0;
 }
 
 /* Keep the whole builder (incl. the button) above the panel so the overlapping
@@ -807,11 +830,9 @@ button {
   z-index: 3;
 }
 
-/* Flavor panel rides up over the lower (hidden) part of the cone, but starts
-   below the builder button — its top padding clears the button area. */
+/* Flavor panel: full-bleed background, no top overlap on mobile. */
 .catalog__panel {
-  margin-top: calc(-1 * var(--space-8));
-  padding-top: var(--space-12);
+  margin-top: 0;
 }
 
 
@@ -914,10 +935,14 @@ button {
   .builder__slot:nth-child(3) { z-index: 1; }
 
   .catalog__panel {
+    margin-inline: 0;
     padding: var(--space-10) var(--space-8) var(--space-8);
   }
 
   .catalog__list {
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: 0;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-10) var(--space-6);
   }
