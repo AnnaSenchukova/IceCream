@@ -88,6 +88,7 @@
   --radius-pill: 9999px;
 
   /* Transition */
+  --builder-checkout-delay: 360ms;
   --transition-fast: 160ms ease;
   --transition-base: 240ms ease;
   --transition-slow: 360ms ease;
@@ -114,6 +115,28 @@
 
   --color-icon-primary: #3b2f2a;
   --color-icon-inverse: #fffaf5;
+
+  /* Flavor scoop colors */
+  --flavor-vanilla: #ecdcc0;
+  --flavor-blueberries: #8a92c4;
+  --flavor-strawberry: #e3a9a4;
+  --flavor-chocolate: #9c6b52;
+  --flavor-matcha: #a7bf91;
+  --flavor-caramel: #d8a86a;
+
+  /* Static font sizes (non-fluid) */
+  --text-logo: 1.375rem;
+  --text-pill: 0.9375rem;
+  --text-count: 0.75rem;
+  --text-footer: 0.875rem;
+  --text-card-price: clamp(1.5rem, 1rem + 2.3vw, 4rem);
+  --text-card-badge: clamp(0.75rem, 0.6rem + 0.5vw, 1.875rem);
+
+  /* Gradients */
+  --gradient-scoop-sheen: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%);
+
+  /* Shadows */
+  --shadow-card-selected: 0 0 0 3px var(--color-button-bg);
 }
 
 /* =========================================================
@@ -237,7 +260,7 @@ button {
 .logo__text {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.375rem;
+  font-size: var(--text-logo);
   letter-spacing: -0.02em;
   text-transform: uppercase;
 }
@@ -275,7 +298,7 @@ button {
   padding: 0 5px;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: var(--text-count);
   line-height: 1;
   color: var(--color-text-inverse);
   background-color: var(--color-button-bg);
@@ -344,7 +367,7 @@ button {
   padding: var(--space-1) var(--space-3);
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 0.9375rem;
+  font-size: var(--text-pill);
   line-height: var(--leading-full);
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -382,12 +405,12 @@ button {
   border-radius: var(--space-3);
 }
 
-.card--vanilla    { --card-color: #ecdcc0; }
-.card--pistachio  { --card-color: #bcc89a; }
-.card--strawberry { --card-color: #e3a9a4; }
-.card--chocolate  { --card-color: #9c6b52; }
-.card--matcha     { --card-color: #a7bf91; }
-.card--caramel    { --card-color: #d8a86a; }
+.card--vanilla     { --card-color: var(--flavor-vanilla); }
+.card--blueberries { --card-color: var(--flavor-blueberries); }
+.card--strawberry  { --card-color: var(--flavor-strawberry); }
+.card--chocolate   { --card-color: var(--flavor-chocolate); }
+.card--matcha      { --card-color: var(--flavor-matcha); }
+.card--caramel     { --card-color: var(--flavor-caramel); }
 
 .card__media {
   order: -1;
@@ -396,7 +419,7 @@ button {
   height: var(--size-ice-cream-mobile);
   border-radius: var(--radius-round);
   overflow: hidden;
-  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
+  background: var(--gradient-scoop-sheen),
               var(--card-color);
 }
 
@@ -431,7 +454,7 @@ button {
 .builder__noscript {
   margin: 0 0 var(--space-3);
   font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-size: var(--text-pill);
   line-height: var(--leading-snug);
   text-align: center;
   color: var(--color-text-secondary);
@@ -445,7 +468,7 @@ button {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.5rem, 1rem + 2.3vw, 4rem);
+  font-size: var(--text-card-price);
   line-height: var(--leading-price);
   text-transform: uppercase;
   color: var(--color-text-primary);
@@ -460,7 +483,7 @@ button {
   padding: 4px var(--space-1);
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: clamp(0.75rem, 0.6rem + 0.5vw, 1.875rem);
+  font-size: var(--text-card-badge);
   line-height: var(--leading-full);
   text-transform: uppercase;
   color: var(--color-badge-text);
@@ -483,7 +506,7 @@ button {
 }
 
 .card--selected .card__media {
-  box-shadow: 0 0 0 3px var(--color-button-bg);
+  box-shadow: var(--shadow-card-selected);
 }
 
 /* ---- builder ---- */
@@ -508,7 +531,7 @@ button {
   padding: var(--space-1) var(--space-3);
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 0.9375rem;
+  font-size: var(--text-pill);
   line-height: var(--leading-full);
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -531,7 +554,7 @@ button {
   display: flex;
   justify-content: center;
   width: 100%;
-  transition: transform var(--transition-slow), opacity var(--transition-slow);
+  transition: transform var(--builder-checkout-delay) ease, opacity var(--builder-checkout-delay) ease;
 }
 
 .builder__visual--leaving {
@@ -593,8 +616,31 @@ button {
   position: absolute;
   inset: 0;
   border-radius: var(--radius-round);
-  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
+  background: var(--gradient-scoop-sheen),
               var(--scoop-color);
+}
+
+/* Real flavor image stacked over the color circle inside a builder scoop.
+   If the image is missing or fails to load, JS hides the picture and the
+   --scoop-color gradient above stays visible as the fallback. */
+.builder__scoop-media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius-round);
+  overflow: hidden;
+}
+
+.builder__scoop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.builder__scoop-img--loaded {
+  opacity: 1;
 }
 
 .builder__remove {
@@ -684,7 +730,7 @@ button {
 
 .footer__text {
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: var(--text-footer);
   color: var(--color-text-secondary);
 }
 
