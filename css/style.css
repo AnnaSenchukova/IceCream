@@ -58,6 +58,7 @@
   --text-h2: clamp(2.375rem, 1.45rem + 2.9vw, 4.875rem);
   --text-h3: clamp(1.375rem, 1.05rem + 1vw, 1.875rem);
   --text-h4: 1.875rem; /* 30px */
+  --text-h1-mobile: clamp(2.5rem, 1.6rem + 4vw, 3.5rem);
   --text-body: clamp(1rem, 0.84rem + 0.5vw, 1.4375rem);
   --text-price: clamp(2rem, 1.26rem + 2.3vw, 4rem);
   --text-badge: clamp(1rem, 0.72rem + 0.9vw, 1.875rem);
@@ -107,6 +108,7 @@
 
   --color-button-bg: #3f2f2a;
   --color-button-bg-disabled: #cbbdb3;
+  --color-button-text-disabled: #8a7d74;
   --color-button-bg-hover: #513d36;
   --color-button-bg-active: #2f221e;
   --color-button-text: #fffaf5;
@@ -316,19 +318,21 @@ button {
   margin: 0 0 var(--space-3);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--text-h1);
+  font-size: var(--text-h1-mobile);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-h1);
   text-transform: uppercase;
+  text-align: center;
 }
 
 .intro__text {
   max-width: 520px;
-  margin: 0;
+  margin: 0 auto;
   font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--text-body);
   line-height: var(--leading-snug);
+  text-align: center;
   color: var(--color-text-secondary);
 }
 
@@ -346,7 +350,7 @@ button {
 .catalog__builder {
   position: relative;
   z-index: 1;
-  margin-bottom: -56px;
+  margin-bottom: 0;
 }
 
 .catalog__panel {
@@ -513,22 +517,15 @@ button {
 
 /* ---- builder ---- */
 .builder {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-4) var(--space-3) var(--space-10);
-}
-
-.builder__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: var(--space-3);
+  padding: 0;
 }
 
 .builder__title-pill {
-  display: inline-flex;
+  display: none;
   align-items: center;
   padding: var(--space-1) var(--space-3);
   font-family: var(--font-body);
@@ -543,12 +540,19 @@ button {
 }
 
 .builder__price {
+  position: absolute;
+  top: 40%;
+  left: -8px;
+  z-index: 3;
+  padding: var(--space-1) var(--space-3);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-price);
   line-height: var(--leading-price);
   text-transform: uppercase;
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
+  background-color: var(--color-button-bg);
+  border-radius: var(--radius-pill);
 }
 
 .builder__visual {
@@ -556,6 +560,8 @@ button {
   display: flex;
   justify-content: center;
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   transition: transform var(--builder-checkout-delay) ease, opacity var(--builder-checkout-delay) ease;
 }
 
@@ -572,43 +578,68 @@ button {
 .builder__cone-mockup {
   position: relative;
   z-index: 1;
-  margin-top: -10px;
+  top: -16%;
+  left: 60%;
+  width: 100%;
+  transform: translateX(-50%) rotate(-20deg);
 }
 
 .builder__cone-img {
-  width: 160px;
+  width: 100%;
   height: auto;
 }
 
 .builder__slots {
   position: absolute;
-  top: 0;
-  left: 50%;
+  top: 8%;
+  left: 47%;
   transform: translateX(-50%);
   z-index: 2;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: 0;
+  width: 84%;
+  aspect-ratio: 4 / 3;
 }
 
 .builder__slot {
-  position: relative;
-  width: 88px;
-  height: 88px;
-  margin-bottom: -34px;
+  position: absolute;
+  width: 56%;
+  aspect-ratio: 1;
+  height: auto;
+  margin: 0;
   border-radius: var(--radius-round);
   transition: transform var(--transition-base);
 }
 
-.builder__slot:nth-child(1) { z-index: 3; }
-.builder__slot:nth-child(2) { z-index: 2; }
-.builder__slot:nth-child(3) { z-index: 1; }
+.builder__slot:nth-child(3) { right: 0; bottom: 0; z-index: 1; }     /* bottom-right */
+.builder__slot:nth-child(2) { left: 0; bottom: 0; z-index: 2; }      /* bottom-left */
+.builder__slot:nth-child(1) { left: 22%; bottom: 34%; z-index: 3; }  /* top, left of center */
 
 .builder__slot--empty {
-  border: 2px dashed rgba(59, 47, 42, 0.35);
-  background: rgba(255, 255, 255, 0.25);
+  border: 4px dashed rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.18);
 }
+
+/* Number the empty skeleton slots by their position: 1, 2, 3
+   (white, semi-transparent). Tied to slot position, not to a counter,
+   so a filled slot in the middle never shifts the visible numbers. */
+.builder__slot--empty::before {
+  content: var(--slot-number, '');
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Default numbering shown before the user interacts with the builder.
+   Once JS sets --slot-number on a slot, that value wins over these. */
+.builder__slot:nth-child(1).builder__slot--empty { --slot-number: '3'; }
+.builder__slot:nth-child(2).builder__slot--empty { --slot-number: '2'; }
+.builder__slot:nth-child(3).builder__slot--empty { --slot-number: '1'; }
 
 .builder__slot--filled {
   border: none;
@@ -648,6 +679,7 @@ button {
 .builder__remove {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -712,6 +744,7 @@ button {
 }
 
 .builder__button--disabled {
+  color: var(--color-button-text-disabled);
   background-color: var(--color-button-bg-disabled);
   cursor: not-allowed;
 }
@@ -736,6 +769,52 @@ button {
   color: var(--color-text-secondary);
 }
 
+
+/* ---- mobile composition: show only the top of the cone ---- */
+/* Only the upper part of the ice cream (scoops + cone tip) is visible;
+   the rest of the cone is clipped, the flavor panel overlaps it from below.
+   Height is proportional to the cone width (aspect-ratio) instead of a fixed
+   pixel value, so a wider screen reveals the same crop ratio and never
+   cuts the cone too high. */
+.builder__visual {
+  height: auto;
+  aspect-ratio: 4 / 5;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+/* Hide the helper status text on mobile entirely. */
+.builder__status {
+  display: none;
+}
+
+/* Hide the "Выбери вкус" panel pill on mobile — the "Собери мороженое"
+   builder button below the cone is the only call to action here. */
+.catalog__pill {
+  display: none;
+}
+
+/* Build button sits directly under the visible cone top. */
+.builder__button {
+  position: relative;
+  z-index: 4;
+  margin-top: var(--space-3);
+}
+
+/* Keep the whole builder (incl. the button) above the panel so the overlapping
+   flavor panel never covers the call-to-action. */
+.catalog__builder {
+  z-index: 3;
+}
+
+/* Flavor panel rides up over the lower (hidden) part of the cone, but starts
+   below the builder button — its top padding clears the button area. */
+.catalog__panel {
+  margin-top: calc(-1 * var(--space-8));
+  padding-top: var(--space-12);
+}
+
+
 /* =========================================================
    Tablet — 768+
    ========================================================= */
@@ -743,6 +822,96 @@ button {
   :root {
     --space-container: 64px;
   }
+
+  /* Undo the mobile cone clipping — show the full ice cream again */
+  .builder__visual {
+    height: auto;
+    aspect-ratio: auto;
+    align-items: stretch;
+    overflow: visible;
+  }
+
+  .builder__status {
+    display: block;
+  }
+
+  .builder__button {
+    margin-top: 0;
+  }
+
+  .catalog__panel {
+    margin-top: 0;
+  }
+
+  /* Bring back the "Выбери вкус" panel pill from tablet up */
+  .catalog__pill {
+    display: inline-flex;
+  }
+
+  /* Restore full-size intro typography & left alignment */
+  .intro__title {
+    font-size: var(--text-h1);
+    text-align: left;
+  }
+
+  .intro__text {
+    margin: 0;
+    text-align: left;
+  }
+
+  /* Restore builder spacing and the overlap offset */
+  .catalog__builder {
+    margin-bottom: -56px;
+  }
+
+  .builder {
+    padding: var(--space-4) var(--space-3) var(--space-10);
+  }
+
+  .builder__title-pill {
+    display: inline-flex;
+  }
+
+  /* Price back in normal flow (drop the dark mobile plate) */
+  .builder__price {
+    position: static;
+    padding: 0;
+    color: var(--color-text-primary);
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  /* Cone returns to fixed width; drop the mobile cap */
+  .builder__visual {
+    max-width: none;
+  }
+
+  /* Scoops: back to the vertical stack */
+  .builder__slots {
+    top: 0;
+    bottom: auto;
+    left: 50%;
+    width: auto;
+    height: auto;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 0;
+  }
+
+  .builder__slot {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    aspect-ratio: auto;
+    inset: auto;
+    margin-bottom: -46px;
+  }
+
+  .builder__slot:nth-child(1) { z-index: 3; }
+  .builder__slot:nth-child(2) { z-index: 2; }
+  .builder__slot:nth-child(3) { z-index: 1; }
 
   .catalog__panel {
     padding: var(--space-10) var(--space-8) var(--space-8);
@@ -762,14 +931,12 @@ button {
     bottom: 64px;
   }
 
-  .builder__cone-img {
-    width: 220px;
+  .builder__cone-mockup {
+    width: auto;
   }
 
-  .builder__slot {
-    width: 120px;
-    height: 120px;
-    margin-bottom: -46px;
+  .builder__cone-img {
+    width: 220px;
   }
 }
 

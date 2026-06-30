@@ -3,21 +3,31 @@
 (function () {
   const SLOTS = 3;
 
-  /* Status text is derived from count + SLOTS, so it never goes out of range
-     if SLOTS changes (replaces the fixed-length STATUS array). */
-  function statusText(count) {
-    if (count >= SLOTS) return 'Ваше мороженое готово';
-    if (count === 0) return `Выбери ${SLOTS} шарика`;
-    const left = SLOTS - count;
-    return left === 1 ? 'Добавь ещё один шарик' : `Добавь ещё ${left} шарика`;
-  }
-
   const TEXT = {
     buttonReady: 'Положить в корзину',
     buttonBuild: 'Собери мороженое',
-    currency: ' ₽',
+    currency: ' ₽',
     removeLabel: 'Удалить шарик: '
   };
+
+  /* Russian plural for "шарик" so the hint stays correct for any count/SLOTS. */
+  function scoopWord(n) {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return 'шарик';
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return 'шарика';
+    return 'шариков';
+  }
+
+  /* The button label carries the progressive hint:
+     0 -> "Собери мороженое", then "Добавь ещё N шарик(а/ов)",
+     full -> ready action label. Derived from count + SLOTS, never out of range. */
+  function buttonLabel(count) {
+    if (count >= SLOTS) return TEXT.buttonReady;
+    if (count === 0) return TEXT.buttonBuild;
+    const left = SLOTS - count;
+    return `Добавь ещё ${left} ${scoopWord(left)}`;
+  }
 
   const listEl = document.querySelector('[data-flavors]');
   const slotsEl = document.querySelector('[data-slots]');
@@ -29,7 +39,7 @@
   const scoopTemplate = document.querySelector('#tmpl-scoop');
 
   /* Guard every element the script touches, not just a subset. */
-  if (!listEl || !slotsEl || !buttonEl || !priceEl || !statusEl ||
+  if (!listEl || !slotsEl || !buttonEl || !priceEl ||
       !visualEl || !cartCountEl || !scoopTemplate) return;
 
   /* Read the checkout delay from CSS so JS timing and the CSS transition
@@ -94,7 +104,8 @@
   /* Each scoop is { id, uid }; uid identifies it stably regardless of position,
      so removal never depends on a stale index. */
   let nextUid = 0;
-  const state = { scoops: [], cart: 0 };
+  const state = { scoops: new Array(SLOTS).fill(null), cart: 0 };
+  let hasInteracted = false;
   let isCheckingOut = false;
 
   function cloneScoopPicture(flavor) {
@@ -135,56 +146,94 @@
     return scoopEl;
   }
 
+  /* Slots are numbered 1, 2, 3 in the CSS (bottom-right, bottom-left, top),
+     but those are DOM children 2, 1, 0. FILL_ORDER maps the Nth added scoop
+     to the DOM slot that carries the matching number, so scoops fill in the
+     order the user sees: 1 -> 2 -> 3. */
+  const FILL_ORDER = [];
+  for (let i = 0; i < SLOTS; i++) FILL_ORDER.push(SLOTS - 1 - i);
+
   function renderSlots() {
     const nodes = slotsEl.children;
     for (let i = 0; i < SLOTS; i++) {
       const slot = nodes[i];
       if (!slot) continue;
-      const scoop = state.scoops[i];
+      /* DOM slot i holds the scoop whose ORDER index maps to it via FILL_ORDER.
+         state.scoops is position-stable: a removed scoop leaves a null hole, so
+         the remaining scoops never jump to another slot. */
+      const scoopIndex = FILL_ORDER.indexOf(i);
+      const scoop = state.scoops[scoopIndex];
       slot.replaceChildren();
       const filled = Boolean(scoop && FLAVORS[scoop.id]);
       slot.classList.toggle('builder__slot--filled', filled);
       slot.classList.toggle('builder__slot--empty', !filled);
-      if (filled) slot.append(buildScoop(scoop));
+      if (filled) {
+        slot.style.removeProperty('--slot-number');
+        slot.append(buildScoop(scoop));
+      } else if (hasInteracted) {
+        /* After the user starts interacting, empty slots are numbered by their
+           order index: scoopIndex + 1. So with 2 scoops in, the only empty slot
+           shows 3; remove one -> empties show 2 and 3; remove all -> 1, 2, 3. */
+        slot.style.setProperty('--slot-number', `'${scoopIndex + 1}'`);
+      } else {
+        /* Untouched builder: keep the default markup/CSS numbering. */
+        slot.style.removeProperty('--slot-number');
+      }
     }
   }
 
+  /* Number of scoops actually placed (ignores the null holes). */
+  function scoopCount() {
+    return state.scoops.reduce((n, s) => n + (s ? 1 : 0), 0);
+  }
+
   function totalPrice() {
-    return state.scoops.reduce((sum, s) => sum + (FLAVORS[s.id]?.price || 0), 0);
+    return state.scoops.reduce((sum, s) => sum + (s ? (FLAVORS[s.id]?.price || 0) : 0), 0);
   }
 
   function render() {
     renderSlots();
-    const count = state.scoops.length;
+    const count = scoopCount();
     priceEl.textContent = totalPrice() + TEXT.currency;
-    statusEl.textContent = statusText(count);
 
-    const ready = count === SLOTS;
+    const ready = count >= SLOTS;
+    const label = buttonLabel(count);
+
+    /* The button itself carries the progressive hint now. Keep the (visually
+       hidden on mobile) status text in sync for screen readers. */
+    if (statusEl) statusEl.textContent = label;
+
     buttonEl.disabled = !ready;
-    buttonEl.textContent = ready ? TEXT.buttonReady : TEXT.buttonBuild;
+    buttonEl.textContent = label;
     buttonEl.classList.toggle('builder__button--ready', ready);
     buttonEl.classList.toggle('builder__button--disabled', !ready);
   }
 
   function addScoop(id) {
-    if (!FLAVORS[id] || state.scoops.length >= SLOTS) return;
-    state.scoops.push({ id, uid: nextUid++ });
+    if (!FLAVORS[id]) return;
+    const free = state.scoops.indexOf(null);
+    if (free === -1) return; /* all slots taken */
+    state.scoops[free] = { id, uid: nextUid++ };
+    hasInteracted = true;
     render();
   }
 
   function removeScoop(uid) {
-    state.scoops = state.scoops.filter((s) => s.uid !== uid);
+    const idx = state.scoops.findIndex((s) => s && s.uid === uid);
+    if (idx === -1) return;
+    state.scoops[idx] = null;
+    hasInteracted = true;
     render();
   }
 
   function checkout() {
-    if (isCheckingOut || state.scoops.length !== SLOTS) return;
+    if (isCheckingOut || scoopCount() !== SLOTS) return;
     isCheckingOut = true;
 
     visualEl.classList.add('builder__visual--leaving');
 
     window.setTimeout(() => {
-      state.scoops = [];
+      state.scoops = new Array(SLOTS).fill(null);
       state.cart += 1;
       cartCountEl.textContent = String(state.cart);
       render();
