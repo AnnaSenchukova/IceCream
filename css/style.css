@@ -3,18 +3,9 @@
    ========================================================= */
 @font-face {
   font-family: "Avenir Next";
-  src: url("../fonts/avenir-next-bold.woff2") format("woff2"),
-       url("../fonts/avenir-next-bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Avenir Next";
-  src: url("../fonts/avenir-next-demi.woff2") format("woff2"),
-       url("../fonts/avenir-next-demi.woff") format("woff");
-  font-weight: 600;
+  src: url("../fonts/avenir-next-regular.woff2") format("woff2"),
+       url("../fonts/avenir-next-regular.woff") format("woff");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -391,41 +382,50 @@ button {
   border-radius: var(--space-3);
 }
 
-.card__visual {
+.card--vanilla    { --card-color: #ecdcc0; }
+.card--pistachio  { --card-color: #bcc89a; }
+.card--strawberry { --card-color: #e3a9a4; }
+.card--chocolate  { --card-color: #9c6b52; }
+.card--matcha     { --card-color: #a7bf91; }
+.card--caramel    { --card-color: #d8a86a; }
+
+.card__media {
+  order: -1;
   position: relative;
   width: var(--size-ice-cream-mobile);
   height: var(--size-ice-cream-mobile);
   border-radius: var(--radius-round);
-  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
-              var(--card-color, #e7c8a0);
-}
-
-.card__visual::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border-radius: var(--radius-round);
-  border: 2px dashed rgba(255, 255, 255, 0);
-  transition: border-color var(--transition-base);
-  pointer-events: none;
-}
-
-.card:hover .card__visual::after,
-.card:focus-visible .card__visual::after {
-  border-color: rgba(255, 255, 255, 0.7);
-}
-
-.card__media {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-round);
   overflow: hidden;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
+              var(--card-color);
 }
+
+
+
+
+@keyframes scoop-shimmer {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
 
 .card__img {
+  position: relative;
+  z-index: 2;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.card__img--loaded {
+  opacity: 1;
+}
+
+/* If the image is broken/hidden, the ghost skeleton beneath stays visible */
+.card__img--failed {
+  display: none;
 }
 
 .builder__noscript {
@@ -439,9 +439,10 @@ button {
 
 .card__price {
   position: absolute;
+  z-index: 4;
   left: -8px;
-  bottom: 18px;
-  z-index: 2;
+  bottom: 52px;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(1.5rem, 1rem + 2.3vw, 4rem);
@@ -454,7 +455,8 @@ button {
   position: absolute;
   top: 6px;
   right: 6px;
-  z-index: 2;
+  z-index: 4;
+  margin: 0;
   padding: 4px var(--space-1);
   font-family: var(--font-body);
   font-weight: 500;
@@ -466,8 +468,13 @@ button {
   border-radius: var(--radius-pill);
 }
 
-.card__title {
+.card__button {
   margin-top: var(--space-2);
+  display: inline-flex;
+  justify-content: center;
+}
+
+.card__title {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: var(--text-h3);
@@ -475,7 +482,7 @@ button {
   color: var(--color-text-primary);
 }
 
-.card--selected .card__visual {
+.card--selected .card__media {
   box-shadow: 0 0 0 3px var(--color-button-bg);
 }
 
@@ -587,7 +594,7 @@ button {
   inset: 0;
   border-radius: var(--radius-round);
   background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%),
-              var(--scoop-color, #e7c8a0);
+              var(--scoop-color);
 }
 
 .builder__remove {
@@ -698,9 +705,13 @@ button {
     gap: var(--space-10) var(--space-6);
   }
 
-  .card__visual {
+  .card__media {
     width: var(--size-ice-cream);
     height: var(--size-ice-cream);
+  }
+
+  .card__price {
+    bottom: 64px;
   }
 
   .builder__cone-img {

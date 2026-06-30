@@ -37,13 +37,13 @@
         </div>
       </section>
 
-      <section class="page__section catalog" aria-labelledby="catalog-title">
-        <h2 class="visually-hidden" id="catalog-title">Конструктор и каталог вкусов</h2>
+      <section class="page__section catalog">
+        <h2 class="visually-hidden">Конструктор и каталог вкусов</h2>
         <div class="container catalog__inner">
 
-          <div class="catalog__builder builder" data-builder>
+          <section class="catalog__builder builder" data-builder>
             <div class="builder__head">
-              <span class="builder__title-pill">Твой рожок</span>
+              <h3 class="builder__title-pill">Собери своё мороженое</h3>
               <span class="builder__price" data-builder-price>0 ₽</span>
             </div>
             <div class="builder__visual" data-builder-visual>
@@ -62,102 +62,77 @@
             <noscript>
               <p class="builder__noscript">Для сборки рожка включите JavaScript. Каталог вкусов и цены доступны ниже.</p>
             </noscript>
-            <button class="builder__button builder__button--disabled" type="button" data-add disabled>Собери мороженое</button>
-          </div>
+            <button class="builder__button builder__button--disabled" type="submit" data-add disabled>Собери мороженое</button>
+          </section>
 
-          <div class="catalog__panel">
-            <span class="catalog__pill">Собери мороженое</span>
+          <section class="catalog__panel">
+            <h3 class="catalog__pill">Выбери вкус</h3>
             <ul class="catalog__list" data-flavors>
-
-              <li class="catalog__card card" data-flavor="vanilla" data-name="Ваниль Бурбон" data-price="180" data-color="#ecdcc0">
-                <button class="card__button" type="button" aria-label="Добавить шарик: Ваниль Бурбон, 180 рублей">
-                  <span class="card__visual" style="--card-color:#ecdcc0">
-                    <picture class="card__media">
-                      <source type="image/webp" srcset="img/ice-cream-vanilla@1x.webp 1x, img/ice-cream-vanilla@2x.webp 2x">
-                      <source type="image/png" srcset="img/ice-cream-vanilla@1x.png 1x, img/ice-cream-vanilla@2x.png 2x">
-                      <img class="card__img" src="img/ice-cream-vanilla@1x.png" alt="" width="267" height="267" loading="lazy">
-                    </picture>
-                    <span class="card__price">180 ₽</span>
-                  </span>
-                  <span class="card__title">Ваниль Бурбон</span>
-                </button>
+              <li class="catalog__card card card--vanilla" data-flavor="vanilla" data-name="Ваниль Бурбон" data-price="180" data-color="#ecdcc0" style="--card-color:#ecdcc0">
+                <h4 class="card__title">Ваниль Бурбон</h4>
+                <p class="card__price">180 ₽</p>
+                <picture class="card__media">
+                  <source type="image/webp" srcset="img/ice-cream-vanilla@1x.webp 1x, img/ice-cream-vanilla@2x.webp 2x">
+                  <source type="image/png" srcset="img/ice-cream-vanilla@1x.png 1x, img/ice-cream-vanilla@2x.png 2x">
+                  <img class="card__img" src="img/ice-cream-vanilla@1x.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
               </li>
 
-              <li class="catalog__card card" data-flavor="pistachio" data-name="Фисташка" data-price="240" data-color="#bcc89a">
-                <button class="card__button" type="button" aria-label="Добавить шарик: Фисташка, 240 рублей">
-                  <span class="card__visual" style="--card-color:#bcc89a">
-                    <span class="card__badge">HIT</span>
-                    <picture class="card__media">
-                      <source type="image/webp" srcset="img/ice-cream-pistachio@1x.webp 1x, img/ice-cream-pistachio@2x.webp 2x">
-                      <source type="image/png" srcset="img/ice-cream-pistachio@1x.png 1x, img/ice-cream-pistachio@2x.png 2x">
-                      <img class="card__img" src="img/ice-cream-pistachio@1x.png" alt="" width="267" height="267" loading="lazy">
-                    </picture>
-                    <span class="card__price">240 ₽</span>
-                  </span>
-                  <span class="card__title">Фисташка</span>
-                </button>
+              <li class="catalog__card card card--pistachio" data-flavor="pistachio" data-name="Фисташка" data-price="240" data-color="#bcc89a" style="--card-color:#bcc89a">
+                <h4 class="card__title">Фисташка</h4>
+                <p class="card__price">240 ₽</p>
+                <p class="card__badge">HIT</p>
+                <picture class="card__media">
+                  <source type="image/webp" srcset="img/ice-cream-pistachio@1x.webp 1x, img/ice-cream-pistachio@2x.webp 2x">
+                  <source type="image/png" srcset="img/ice-cream-pistachio@1x.png 1x, img/ice-cream-pistachio@2x.png 2x">
+                  <img class="card__img" src="img/ice-cream-pistachio@1x.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
               </li>
 
-              <li class="catalog__card card" data-flavor="strawberry" data-name="Клубника" data-price="210" data-color="#e3a9a4">
-                <button class="card__button" type="button" aria-label="Добавить шарик: Клубника, 210 рублей">
-                  <span class="card__visual" style="--card-color:#e3a9a4">
-                    <picture class="card__media">
-                      <source type="image/webp" srcset="img/ice-cream-strawberry@1x.webp 1x, img/ice-cream-strawberry@2x.webp 2x">
-                      <source type="image/png" srcset="img/ice-cream-strawberry@1x.png 1x, img/ice-cream-strawberry@2x.png 2x">
-                      <img class="card__img" src="img/ice-cream-strawberry@1x.png" alt="" width="267" height="267" loading="lazy">
-                    </picture>
-                    <span class="card__price">210 ₽</span>
-                  </span>
-                  <span class="card__title">Клубника</span>
-                </button>
+              <li class="catalog__card card card--strawberry" data-flavor="strawberry" data-name="Клубника" data-price="210" data-color="#e3a9a4" style="--card-color:#e3a9a4">
+                <h4 class="card__title">Клубника</h4>
+                <p class="card__price">210 ₽</p>
+                <picture class="card__media">
+                  <source type="image/webp" srcset="img/ice-cream-strawberry@1x.webp 1x, img/ice-cream-strawberry@2x.webp 2x">
+                  <source type="image/png" srcset="img/ice-cream-strawberry@1x.png 1x, img/ice-cream-strawberry@2x.png 2x">
+                  <img class="card__img" src="img/ice-cream-strawberry@1x.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
               </li>
 
-              <li class="catalog__card card" data-flavor="chocolate" data-name="Тёмный шоколад" data-price="230" data-color="#9c6b52">
-                <button class="card__button" type="button" aria-label="Добавить шарик: Тёмный шоколад, 230 рублей">
-                  <span class="card__visual" style="--card-color:#9c6b52">
-                    <span class="card__badge">NEW</span>
-                    <picture class="card__media">
-                      <source type="image/webp" srcset="img/ice-cream-chocolate@1x.webp 1x, img/ice-cream-chocolate@2x.webp 2x">
-                      <source type="image/png" srcset="img/ice-cream-chocolate@1x.png 1x, img/ice-cream-chocolate@2x.png 2x">
-                      <img class="card__img" src="img/ice-cream-chocolate@1x.png" alt="" width="267" height="267" loading="lazy">
-                    </picture>
-                    <span class="card__price">230 ₽</span>
-                  </span>
-                  <span class="card__title">Тёмный шоколад</span>
-                </button>
+              <li class="catalog__card card card--chocolate" data-flavor="chocolate" data-name="Тёмный шоколад" data-price="230" data-color="#9c6b52" style="--card-color:#9c6b52">
+                <h4 class="card__title">Тёмный шоколад</h4>
+                <p class="card__price">230 ₽</p>
+                <p class="card__badge">NEW</p>
+                <picture class="card__media">
+                  <source type="image/webp" srcset="img/ice-cream-chocolate@1x.webp 1x, img/ice-cream-chocolate@2x.webp 2x">
+                  <source type="image/png" srcset="img/ice-cream-chocolate@1x.png 1x, img/ice-cream-chocolate@2x.png 2x">
+                  <img class="card__img" src="img/ice-cream-chocolate@1x.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
               </li>
 
-              <li class="catalog__card card" data-flavor="matcha" data-name="Матча" data-price="250" data-color="#a7bf91">
-                <button class="card__button" type="button" aria-label="Добавить шарик: Матча, 250 рублей">
-                  <span class="card__visual" style="--card-color:#a7bf91">
-                    <picture class="card__media">
-                      <source type="image/webp" srcset="img/ice-cream-matcha@1x.webp 1x, img/ice-cream-matcha@2x.webp 2x">
-                      <source type="image/png" srcset="img/ice-cream-matcha@1x.png 1x, img/ice-cream-matcha@2x.png 2x">
-                      <img class="card__img" src="img/ice-cream-matcha@1x.png" alt="" width="267" height="267" loading="lazy">
-                    </picture>
-                    <span class="card__price">250 ₽</span>
-                  </span>
-                  <span class="card__title">Матча</span>
-                </button>
+              <li class="catalog__card card card--matcha" data-flavor="matcha" data-name="Матча" data-price="250" data-color="#a7bf91" style="--card-color:#a7bf91">
+                <h4 class="card__title">Матча</h4>
+                <p class="card__price">250 ₽</p>
+                <picture class="card__media">
+                  <source type="image/webp" srcset="img/ice-cream-matcha@1x.webp 1x, img/ice-cream-matcha@2x.webp 2x">
+                  <source type="image/png" srcset="img/ice-cream-matcha@1x.png 1x, img/ice-cream-matcha@2x.png 2x">
+                  <img class="card__img" src="img/ice-cream-matcha@1x.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
               </li>
 
-              <li class="catalog__card card" data-flavor="caramel" data-name="Солёная карамель" data-price="220" data-color="#d8a86a">
-                <button class="card__button" type="button" aria-label="Добавить шарик: Солёная карамель, 220 рублей">
-                  <span class="card__visual" style="--card-color:#d8a86a">
-                    <span class="card__badge">HIT</span>
-                    <picture class="card__media">
-                      <source type="image/webp" srcset="img/ice-cream-caramel@1x.webp 1x, img/ice-cream-caramel@2x.webp 2x">
-                      <source type="image/png" srcset="img/ice-cream-caramel@1x.png 1x, img/ice-cream-caramel@2x.png 2x">
-                      <img class="card__img" src="img/ice-cream-caramel@1x.png" alt="" width="267" height="267" loading="lazy">
-                    </picture>
-                    <span class="card__price">220 ₽</span>
-                  </span>
-                  <span class="card__title">Солёная карамель</span>
-                </button>
+              <li class="catalog__card card card--caramel" data-flavor="caramel" data-name="Солёная карамель" data-price="220" data-color="#d8a86a" style="--card-color:#d8a86a">
+                <h4 class="card__title">Солёная карамель</h4>
+                <p class="card__price">220 ₽</p>
+                <p class="card__badge">HIT</p>
+                <picture class="card__media">
+                  <source type="image/webp" srcset="img/ice-cream-caramel@1x.webp 1x, img/ice-cream-caramel@2x.webp 2x">
+                  <source type="image/png" srcset="img/ice-cream-caramel@1x.png 1x, img/ice-cream-caramel@2x.png 2x">
+                  <img class="card__img" src="img/ice-cream-caramel@1x.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
               </li>
 
-            </ul>
-          </div>
+          </ul>
+          </section>
 
         </div>
       </section>

@@ -27,12 +27,43 @@
   for (var c = 0; c < cards.length; c++) {
     var card = cards[c];
     var id = card.getAttribute('data-flavor');
+    /* Color is defined only in CSS via .card--<flavor> { --card-color }.
+       Read the resolved value so markup stays free of color data. */
+    var color = window.getComputedStyle(card)
+      .getPropertyValue('--card-color').trim();
     FLAVORS[id] = {
       id: id,
       name: card.getAttribute('data-name'),
       price: parseInt(card.getAttribute('data-price'), 10),
-      color: card.getAttribute('data-color')
+      color: color,
+      modifier: id
     };
+  }
+
+  /* Ghost skeleton: keep a placeholder scoop under every image.
+     Reveal the image on load; on error hide it so the ghost stays. */
+  function setupScoopImage(img) {
+    var card = img.closest('.card');
+    function reveal() {
+      img.classList.add('card__img--loaded');
+      img.classList.remove('card__img--failed');
+      if (card) card.classList.remove('card--ghost');
+    }
+    function fail() {
+      img.classList.add('card__img--failed');
+      if (card) card.classList.add('card--ghost');
+    }
+    if (img.complete) {
+      if (img.naturalWidth > 0) { reveal(); } else { fail(); }
+    } else {
+      img.addEventListener('load', reveal);
+      img.addEventListener('error', fail);
+    }
+  }
+
+  var scoopImages = listEl.querySelectorAll('.card__img');
+  for (var s = 0; s < scoopImages.length; s++) {
+    setupScoopImage(scoopImages[s]);
   }
 
   var state = { scoops: [], cart: 0 };
@@ -128,7 +159,10 @@
     if (rm) removeScoop(parseInt(rm.getAttribute('data-remove'), 10));
   });
 
-  buttonEl.addEventListener('click', checkout);
+  buttonEl.addEventListener('click', function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    checkout();
+  });
 
   /* Mark builder as JS-enhanced — enables interactive styling hooks. */
   var builderEl = document.querySelector('[data-builder]');
