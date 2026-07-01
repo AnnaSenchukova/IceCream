@@ -178,7 +178,7 @@ html {
 
 html,
 body {
-  min-width: 320px;
+  min-width: 280px;
   margin: 0;
   padding: 0;
 }
@@ -880,7 +880,7 @@ button {
     gap: var(--slide-gap);
     /* Side gutter = half a card + one gap, so a snapped card is centered and
        exactly half of each neighbour shows past the screen edges. */
-    padding-inline: calc((100vw - var(--slide-card)) / 2);
+    padding-inline: calc((100% - var(--slide-card)) / 2);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
@@ -911,6 +911,9 @@ button {
   /* The rising ice cream must stay BELOW the catalog panel. */
   .builder__visual {
     z-index: 1;
+    /* Cone grows with the screen only up to ~450px, then holds this size and
+       stays centered; the catalog panel behind it keeps stretching full-width. */
+    max-width: 450px;
   }
 
   /* Neutralize the builder's own stacking context (base z-index:3) so its
@@ -961,6 +964,53 @@ button {
     --space-container: var(--gutter-desktop);
   }
 
+  /* ---- Desktop header: full chocolate bar, cream text & icons ---- */
+  .page__header {
+    background-color: var(--color-button-bg);
+    padding-inline: var(--space-4);
+  }
+
+  .logo,
+  .logo__mark {
+    color: var(--color-text-inverse);
+  }
+
+  .logo__text {
+    color: var(--color-text-inverse);
+  }
+
+  .cart {
+    color: var(--color-text-inverse);
+  }
+
+  .cart:hover {
+    background-color: rgba(245, 231, 184, 0.14);
+  }
+
+  /* Cart count: cream chip, chocolate zero. */
+  .cart__count {
+    color: var(--color-button-bg);
+    background-color: var(--color-text-inverse);
+  }
+
+  /* ---- Desktop intro: cream centered text on a brown block, 64px padding ---- */
+  .page__intro {
+    padding-block: var(--space-8);
+    background-color: var(--color-bg-accent);
+  }
+
+  .intro__title {
+    color: var(--color-text-inverse);
+    text-align: center;
+  }
+
+  .intro__text {
+    margin-inline: auto;
+    text-align: center;
+    color: var(--color-text-inverse);
+  }
+
+
   /* Two columns from tablet up: builder on the right, catalog on the left,
      builder stretched to the full row height. */
   .catalog__inner {
@@ -1005,6 +1055,10 @@ button {
 
   .builder__button {
     margin-top: 0;
+    width: auto;
+    min-width: 100%;
+    white-space: nowrap;
+    padding-inline: var(--space-4);
   }
 
   .catalog__panel {
@@ -1013,19 +1067,35 @@ button {
 
   /* Bring back the "\u0412\u044b\u0431\u0435\u0440\u0438 \u0432\u043a\u0443\u0441" panel pill from tablet up */
   .catalog__pill {
-    display: inline-flex;
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    display: block;
+    align-self: flex-end;
+    margin: 0 0 var(--space-4) auto;
+    padding: 0;
+    width: auto;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-h3);
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+    background-color: transparent;
+    border-radius: 0;
+    text-align: right;
+    transition: color var(--transition-fast);
   }
 
-  /* Restore full-size intro typography & left alignment */
-  .intro__title {
-    font-size: var(--text-h1);
-    text-align: left;
+  .catalog__pill:hover {
+    color: var(--color-button-bg);
   }
 
-  .intro__text {
-    margin: 0;
-    text-align: left;
+  .catalog__panel {
+    display: flex;
+    flex-direction: column;
   }
+
 
   /* Restore builder spacing and the overlap offset */
   .catalog__builder {
@@ -1034,11 +1104,11 @@ button {
 
   .builder {
     padding-block: var(--space-4) var(--space-10);
-  padding-inline: var(--space-3);
+    padding-inline: 0;
   }
 
   .builder__title-pill {
-    display: inline-flex;
+    display: none;
   }
 
   /* Price back in normal flow (drop the dark mobile plate) */
@@ -1055,32 +1125,33 @@ button {
     max-width: none;
   }
 
-  /* Scoops: back to the vertical stack */
+  /* Scoops: keep the EXACT mobile absolute layout (identical positions) — just
+     larger, since the desktop cone is bigger. All offsets mirror the base
+     (mobile) rules 1:1; only .builder__slots width/aspect drive the scale. */
   .builder__slots {
+    position: absolute;
     top: 0;
     bottom: auto;
-    left: 50%;
-    width: auto;
+    left: 47%;
+    transform: translateX(-50%);
+    width: 84%;
     height: auto;
-    aspect-ratio: auto;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    gap: 0;
+    aspect-ratio: 4 / 3;
+    display: block;
   }
 
   .builder__slot {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    aspect-ratio: auto;
+    position: absolute;
+    width: 56%;
+    height: auto;
+    aspect-ratio: 1;
     inset: auto;
-    margin-bottom: -46px;
+    margin: 0;
   }
 
-  .builder__slot:nth-child(1) { z-index: 3; }
-  .builder__slot:nth-child(2) { z-index: 2; }
-  .builder__slot:nth-child(3) { z-index: 1; }
+  .builder__slot:nth-child(3) { right: 8px; bottom: 0; z-index: 1; }
+  .builder__slot:nth-child(2) { left: 30px; bottom: -15px; z-index: 2; }
+  .builder__slot:nth-child(1) { left: 22%; top: 0; z-index: 3; }
 
   /* Re-assert the hover lift here: the per-slot z-index above (later in the
      source) would otherwise override the base rule at equal specificity. */
@@ -1091,8 +1162,13 @@ button {
 
   .catalog__panel {
     margin-inline: 0;
-    padding-block: var(--space-10) var(--space-8);
-  padding-inline: var(--space-8);
+    padding-block: var(--space-8);
+    padding-inline: var(--space-8);
+    /* Transparent-cream backdrop (same butter tone as the page), with only a
+       2px brown border on the right edge. */
+    background-color: transparent;
+    border-right: 2px solid var(--color-button-bg);
+    border-radius: 0;
   }
 
   .catalog__list {
@@ -1100,7 +1176,7 @@ button {
     margin-inline: 0;
     padding-inline: 0;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0;
+    gap: var(--space-4);
     justify-content: center;
   }
 
@@ -1108,12 +1184,16 @@ button {
     max-width: var(--size-ice-cream-mobile);
   }
 
+  .card__title {
+    color: var(--color-text-primary);
+  }
+
   .builder__cone-mockup {
     width: auto;
   }
 
   .builder__cone-img {
-    width: 220px;
+    width: 360px;
   }
 }
 
@@ -1157,19 +1237,10 @@ button {
     border-radius: var(--radius-block);
   }
 
-  .catalog__pill {
-    left: var(--space-10);
-    transform: none;
-  }
-
-  .builder__slot {
-    width: 130px;
-    height: 130px;
-    margin-bottom: -50px;
-  }
-
+  /* Keep the mobile-like absolute scoop layout + enlarged cone from 768; just
+     bump the cone a touch more on very wide screens. */
   .builder__cone-img {
-    width: 240px;
+    width: 400px;
   }
 }
 
