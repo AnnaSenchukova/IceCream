@@ -1,6 +1,4 @@
-/* =========================================================
-   1. @font-face
-   ========================================================= */
+/* ===================== @font-face ===================== */
 @font-face {
   font-family: "Avenir Next";
   src: url("../fonts/avenir-next-regular.woff2") format("woff2"),
@@ -28,47 +26,31 @@
   font-display: swap;
 }
 
-/* =========================================================
-   2. CSS variables
-   ========================================================= */
+/* ===================== CSS variables ===================== */
 :root {
-  /* =======================================================
-     ⚙️  НАСТРОЙКИ  —  меняй значения ЗДЕСЬ, не углубляясь в код.
-     ======================================================= */
+  --size-ice-cream: 200px;
+  --size-ice-cream-mobile: 150px;
+  --size-ice-cream-fluid: clamp(150px, 36vw, 200px);
 
-  /* Размер шарика мороженого */
-  --size-ice-cream: 200px;                        /* крупный шарик (1200+) */
-  --size-ice-cream-mobile: 150px;                 /* мелкий шарик (мобила/планшет) */
-  --size-ice-cream-fluid: clamp(150px, 36vw, 200px); /* резиновый рост 150→277 */
+  --slide-card: 50vw;
+  --slide-gap: 24px;
 
-  /* Мобильный слайдер вкусов */
-  --slide-card: 50vw;   /* ширина карточки в ленте (0.5 экрана) */
-  --slide-gap: 24px;    /* промежуток между карточками */
+  --gutter-mobile: 16px;
+  --gutter-desktop: 64px;
 
-  /* Боковые поля контейнера */
-  --gutter-mobile: 16px;   /* поля по краям на мобиле */
-  --gutter-desktop: 64px;  /* поля по краям от планшета */
-
-  /* ======================================================= */
-
-  /* Breakpoints */
   --bp-mobile: 320px;
   --bp-tablet: 768px;
   --bp-desktop: 1440px;
 
-  /* Layout */
   --container-max: 1500px;
   --space-container: var(--gutter-mobile);
 
-  /* Dynamic scoop/card color (overridden inline per flavor via JS) */
   --card-color: #e7c8a0;
   --scoop-color: #e7c8a0;
 
-  /* Font family */
   --font-display: "Avenir Next", "Avenir Next Cyr", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Roboto", "Inter", "Helvetica Neue", Arial, sans-serif;
 
-  /* Typography */
   --text-logo: 1.375rem;
   --text-pill: 0.9375rem;
   --text-count: 0.75rem;
@@ -83,16 +65,13 @@
   --text-badge: clamp(1rem, 0.72rem + 0.9vw, 1.875rem);
   --text-button: clamp(1.375rem, 1rem + 0.28vw, 1.5625rem);
 
-  /* Line height */
   --leading-tight: 0.9;
   --leading-full: 1;
   --leading-snug: 1.1;
   --leading-price: 0.86;
 
-  /* Letter spacing */
   --tracking-h1: -0.04em;
 
-  /* 8px Swiss grid */
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
@@ -103,19 +82,16 @@
   --space-10: 80px;
   --space-12: 96px;
 
-  /* Radius */
   --radius-block: clamp(40px, 8vw + 16px, 96px);
   --radius-round: 50%;
   --radius-pill: 9999px;
 
-  /* Transition */
   --builder-checkout-delay: 360ms;
-  --builder-rise-duration: 640ms;   /* всплытие нового рожка снизу (медленнее ухода) */
+  --builder-rise-duration: 640ms;
   --transition-fast: 160ms ease;
   --transition-base: 240ms ease;
   --transition-slow: 360ms ease;
 
-  /* Color */
   --color-bg: #f5e7b8;
   --color-bg-accent: #3f2f2a;
   --color-bg-overlay-soft: rgba(59, 47, 42, 0.14);
@@ -139,7 +115,6 @@
   --color-icon-primary: #3b2f2a;
   --color-icon-inverse: #f5e7b8;
 
-  /* Flavor scoop colors */
   --flavor-vanilla: #ecdcc0;
   --flavor-blueberries: #8a92c4;
   --flavor-strawberry: #e3a9a4;
@@ -147,11 +122,8 @@
   --flavor-matcha: #a7bf91;
   --flavor-caramel: #d8a86a;
 
-
-  /* Gradients */
   --gradient-scoop-sheen: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%);
 
-  /* Shadows */
   --shadow-card-selected: 0 0 0 3px var(--color-button-bg);
 }
 
@@ -161,17 +133,13 @@
   }
 }
 
-/* =========================================================
-   2b. Keyframes (all animations live here)
-   ========================================================= */
+/* ===================== Keyframes ===================== */
 @keyframes scoop-shimmer {
   from { background-position: 150% 0; }
   to { background-position: -50% 0; }
 }
 
-/* =========================================================
-   3. Reset / base styles
-   ========================================================= */
+/* ===================== Reset / base ===================== */
 *,
 *::before,
 *::after {
@@ -229,9 +197,7 @@ button {
   cursor: pointer;
 }
 
-/* =========================================================
-   4. Utilities
-   ========================================================= */
+/* ===================== Utilities ===================== */
 .container {
   width: 100%;
   max-width: 1500px;
@@ -255,18 +221,14 @@ button {
   overflow: hidden;
 }
 
-/* =========================================================
-   5. Component styles
-   ========================================================= */
-
-/* ---- page ---- */
+/* ===================== Page ===================== */
 .page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* ---- header / logo / cart ---- */
+/* ===================== Header ===================== */
 .page__header {
   padding-block: var(--space-3);
   padding-inline: 0;
@@ -339,7 +301,7 @@ button {
   border-radius: var(--radius-pill);
 }
 
-/* ---- intro ---- */
+/* ===================== Intro ===================== */
 .page__intro {
   padding-top: var(--space-4);
   padding-bottom: var(--space-4);
@@ -369,18 +331,9 @@ button {
   color: var(--color-text-secondary);
 }
 
-/* ---- catalog ---- */
+/* ===================== Catalog ===================== */
 .catalog {
   position: relative;
-}
-
-/* Keep the flavor grid from spilling its cards on the narrowest screens. */
-.catalog__list {
-  overflow: clip;
-}
-
-.card {
-  min-width: 0;
 }
 
 .catalog__inner {
@@ -388,7 +341,6 @@ button {
   flex-direction: column;
 }
 
-/* builder overlaps under the accent panel on mobile */
 .catalog__builder {
   position: relative;
   z-index: 1;
@@ -404,13 +356,6 @@ button {
   padding-block: var(--space-6) var(--space-4);
   padding-inline: 0;
   background-color: var(--color-bg-accent);
-}
-
-/* The flavor grid keeps the container max-width + inner gutters, centered. */
-.catalog__list {
-  max-width: none;
-  margin-inline: 0;
-  padding-inline: 0;
 }
 
 .catalog__pill {
@@ -438,15 +383,19 @@ button {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+  overflow: clip;
 }
 
-/* ---- card (flavor) ---- */
+/* ===================== Card ===================== */
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  min-width: 0;
   text-align: center;
   background: none;
   transition: transform var(--transition-base);
@@ -486,9 +435,6 @@ button {
   border-radius: 50%;
 }
 
-
-
-
 .card__img {
   position: relative;
   z-index: 2;
@@ -503,19 +449,8 @@ button {
   opacity: 1;
 }
 
-/* If the image is broken/hidden, the ghost skeleton beneath stays visible */
 .card__img--failed {
   display: none;
-}
-
-.builder__noscript {
-  margin-block: 0 var(--space-3);
-  margin-inline: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-pill);
-  line-height: var(--leading-snug);
-  text-align: center;
-  color: var(--color-text-secondary);
 }
 
 .card__price {
@@ -576,13 +511,23 @@ button {
   box-shadow: var(--shadow-card-selected);
 }
 
-/* ---- builder ---- */
+/* ===================== Builder ===================== */
 .builder {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0;
+}
+
+.builder__noscript {
+  margin-block: 0 var(--space-3);
+  margin-inline: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-pill);
+  line-height: var(--leading-snug);
+  text-align: center;
+  color: var(--color-text-secondary);
 }
 
 .builder__title-pill {
@@ -628,6 +573,10 @@ button {
   max-width: 600px;
   margin-block: 0;
   margin-inline: auto;
+  height: auto;
+  aspect-ratio: 5 / 4;
+  align-items: flex-start;
+  overflow: hidden;
   transition: transform var(--builder-checkout-delay) ease, opacity var(--builder-checkout-delay) ease;
 }
 
@@ -675,17 +624,14 @@ button {
   transition: transform var(--transition-base);
 }
 
-.builder__slot:nth-child(3) { right: 8px; bottom: 0; z-index: 1; }     /* bottom-right */
-.builder__slot:nth-child(2) { left: 30px; bottom: -15px; z-index: 2; }      /* bottom-left */
-.builder__slot:nth-child(1) { left: 22%; top: 0; z-index: 3; }  /* top, left of center */
+.builder__slot:nth-child(3) { right: 8px; bottom: 0; z-index: 1; }
+.builder__slot:nth-child(2) { left: 30px; bottom: -15px; z-index: 2; }
+.builder__slot:nth-child(1) { left: 22%; top: 0; z-index: 3; }
 
-/* On hover/focus a scoop lifts above its neighbours so its remove (✕) button
-   is never covered by the top scoop. */
 .builder__slot:hover,
 .builder__slot:focus-within {
   z-index: 20;
 }
-
 
 .builder__slot--empty:nth-child(1) {
   border: 6px solid rgba(255, 255, 255, 0.85);
@@ -714,9 +660,6 @@ button {
               var(--scoop-color);
 }
 
-/* Real flavor image stacked over the color circle inside a builder scoop.
-   If the image is missing or fails to load, JS hides the picture and the
-   --scoop-color gradient above stays visible as the fallback. */
 .builder__scoop-media {
   position: absolute;
   inset: 0;
@@ -761,10 +704,11 @@ button {
   z-index: 100;
   width: 30%;
   height: 30%;
-  color: var(--color-icon-primary)
+  color: var(--color-icon-primary);
 }
 
 .builder__status {
+  display: none;
   margin-block: 0 var(--space-3);
   margin-inline: 0;
   font-family: var(--font-body);
@@ -776,11 +720,14 @@ button {
 }
 
 .builder__button {
+  position: relative;
+  z-index: 4;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: 56px;
+  margin-top: 0;
   padding-block: 0;
   padding-inline: var(--space-3);
   font-family: var(--font-body);
@@ -795,6 +742,7 @@ button {
 }
 
 .builder__button:hover {
+  color: var(--color-text-inverse);
   background-color: var(--color-button-bg-hover);
 }
 
@@ -819,13 +767,13 @@ button {
 }
 
 .builder__button--ready {
-  color: var(--color-button-bg);              /* коричневый текст */
-  background-color: var(--color-bg);          /* сливочный фон (butter) */
-  border: 2px solid var(--color-button-bg);   /* коричневая обводка 2px */
+  color: var(--color-button-bg);
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-button-bg);
 }
 
-/* ---- footer ---- */
-.page__footer {
+/* ===================== Footer ===================== */
+.footer {
   margin-top: auto;
   padding-block: var(--space-6);
 }
@@ -836,453 +784,7 @@ button {
   color: var(--color-button-text-disabled);
 }
 
-
-/* ---- mobile composition: show only the top of the cone ---- */
-/* Only the upper part of the ice cream (scoops + cone tip) is visible;
-   the rest of the cone is clipped, the flavor panel overlaps it from below.
-   Height is proportional to the cone width (aspect-ratio) instead of a fixed
-   pixel value, so a wider screen reveals the same crop ratio and never
-   cuts the cone too high. */
-.builder__visual {
-  height: auto;
-  aspect-ratio: 5 / 4;
-  align-items: flex-start;
-  overflow: hidden;
-}
-
-/* Hide the helper status text on mobile entirely. */
-.builder__status {
-  display: none;
-}
-
-/* Hide the "Выбери вкус" panel pill on mobile — the "Собери мороженое"
-   builder button below the cone is the only call to action here. */
-.catalog__pill {
-  display: none;
-}
-
-/* Build button sits directly under the visible cone top. */
-.builder__button {
-  position: relative;
-  z-index: 4;
-  margin-top: 0;
-}
-
-
-
-
-/* =========================================================
-   Mobile (<=767): two-column layout + flavor slider
-   ========================================================= */
-@media (max-width: 767px) {
-  /* Full-bleed slider with an EXACT half-card peek on both sides at any width.
-     Everything is derived from a single card-width var so the visible fraction
-     of the neighbouring scoops never drifts when the screen resizes. */
-  .catalog__list {
-    display: flex;
-    gap: var(--slide-gap);
-    /* Side gutter = half a card + one gap, so a snapped card is centered and
-       exactly half of each neighbour shows past the screen edges. */
-    padding-inline: calc((100% - var(--slide-card)) / 2);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    /* Hide the horizontal scrollbar (Firefox/IE + WebKit below). */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .catalog__list::-webkit-scrollbar {
-    display: none;
-  }
-
-  .catalog__card {
-    flex: 0 0 var(--slide-card);
-    scroll-snap-align: center;
-  }
-
-  /* ---- mobile fine-tuning ---- */
-  /* The pink slider panel has no rounded corners on mobile. */
-  .catalog__panel {
-    border-radius: 0;
-    /* Flavor catalog sits ABOVE the rising ice cream, so the new cone emerges
-       from behind it instead of over it. */
-    z-index: 5;
-  }
-
-  /* The rising ice cream must stay BELOW the catalog panel. */
-  .builder__visual {
-    z-index: 1;
-    /* Cone grows with the screen only up to ~450px, then holds this size and
-       stays centered; the catalog panel behind it keeps stretching full-width. */
-    max-width: 450px;
-  }
-
-  /* Neutralize the builder's own stacking context (base z-index:3) so its
-     children compare against the panel directly: visual(1) < panel(5) < button(6).
-     Otherwise ALL builder children get trapped under/over the panel together. */
-  .catalog__builder {
-    z-index: auto;
-  }
-
-  /* Keep the build button clickable and on top of everything. */
-  .builder__button {
-    z-index: 6;
-  }
-
-  /* Card: no outer margins; title spaced 16px under the image. */
-  .card {
-    margin: 0;
-  }
-
-  /* Mobile checkout motion: leaving keeps the base side-swipe; only the NEW
-     cone changes — it starts BELOW and slides UP into place. Uses a transition
-     (not a keyframe animation) so the JS class-toggle drives it: JS adds
-     --entering (start state below), then removes it next frame -> it eases up.
-     The catalog + button (z-index: 4) sit above, so it emerges from under them. */
-  .builder__visual {
-    transition: transform var(--builder-rise-duration) ease,
-                opacity var(--builder-rise-duration) ease;
-  }
-
-  /* Start the new cone lower inside the frame and slide it UP.
-     transition:none makes it JUMP to the start point instantly (otherwise it
-     would smoothly travel from the leaving side-swipe position -> looks like a
-     side entry). After JS removes the class next frame, the base transition
-     eases it up. overflow:hidden clips a full 120% start, so we use 60%. */
-  .builder__visual--entering {
-    transition: none;
-    transform: translateY(60%);
-    opacity: 0;
-  }
-}
-
-
-/* =========================================================
-   Tablet — 768+
-   ========================================================= */
-@media (min-width: 768px) {
-
-  /* ---- Desktop header: full chocolate bar, cream text & icons ---- */
-  .page__header {
-    background-color: var(--color-button-bg);
-    padding-inline: var(--space-4);
-  }
-
-  .page__footer {
-    margin-top: var(--space-6);
-    background-color: var(--color-button-bg);
-  }
-
-  .logo,
-  .logo__mark {
-    color: var(--color-text-inverse);
-  }
-
-  .logo__text {
-    color: var(--color-text-inverse);
-  }
-
-  .cart {
-    color: var(--color-text-inverse);
-  }
-
-  .cart:hover {
-    background-color: rgba(245, 231, 184, 0.14);
-  }
-
-  /* Cart count: cream chip, chocolate zero. */
-  .cart__count {
-    color: var(--color-button-bg);
-    background-color: var(--color-text-inverse);
-  }
-
-  /* ---- Desktop intro: cream centered text on a brown block, 64px padding ---- */
-  .page__intro {
-    margin-bottom: var(--space-6);
-    padding-block: var(--space-8);
-    background-color: var(--color-bg-accent);
-  }
-
-  .intro__title {
-    color: var(--color-text-inverse);
-    text-align: center;
-  }
-
-  .intro__text {
-    margin-inline: auto;
-    text-align: center;
-    color: var(--color-text-inverse);
-  }
-
-
-  /* Two columns from tablet up: builder on the right, catalog on the left,
-     builder stretched to the full row height. */
-  .catalog__inner {
-    flex-direction: row-reverse;
-    align-items: stretch;
-  }
-
-  .catalog__builder {
-    flex: 0 0 350px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: var(--space-2);
-  }
-
-  .catalog__panel {
-    flex: 1 1 auto;
-  }
-
-  /* Flavor list returns to a static grid (no slider) from tablet up. */
-  .catalog__list {
-    display: grid;
-    padding-inline: 0;
-    overflow: visible;
-  }
-
-  .catalog__card {
-    flex: initial;
-  }
-
-  /* Undo the mobile cone clipping — show the full ice cream again */
-  .builder__visual {
-    height: auto;
-    aspect-ratio: auto;
-    align-items: stretch;
-    overflow: visible;
-  }
-
-  .builder__cone-mockup {
-    top: 0;
-  }
-
-  .builder__button {
-    order: 2;
-    margin-top: 0;
-    width: auto;
-    min-width: 100%;
-    white-space: nowrap;
-    padding-inline: var(--space-4);
-  }
-
-  .catalog__panel {
-    margin-top: 0;
-  }
-
-  /* Bring back the "Выбери вкус" panel pill from tablet up */
-  .catalog__pill {
-    position: static;
-    left: auto;
-    top: auto;
-    transform: none;
-    display: block;
-    align-self: flex-start;
-    margin: 0 auto var(--space-4) 0;
-    padding: 0;
-    width: auto;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: var(--text-h3);
-    letter-spacing: -0.01em;
-    color: var(--color-text-primary);
-    background-color: transparent;
-    border-radius: 0;
-    text-align: left;
-    transition: color var(--transition-fast);
-  }
-
-  .catalog__pill:hover {
-    color: var(--color-button-bg);
-  }
-
-  .catalog__panel {
-    display: flex;
-    flex-direction: column;
-  }
-
-
-
-  .builder__title-pill {
-    display: none;
-  }
-
-  /* Price back in normal flow (drop the dark mobile plate); pushed down so it
-     sits just above the build button. */
-  .builder__price {
-    position: static;
-    order: 1;
-    align-self: flex-start;
-    min-width: 165px;
-    margin-bottom: var(--space-2);
-    padding-block: var(--space-1);
-    padding-inline: var(--space-3);
-    color: var(--color-text-inverse);
-    background-color: var(--color-button-bg);
-    border-radius: var(--radius-pill);
-  }
-
-  /* Cone returns to fixed width; drop the mobile cap */
-  .builder__visual {
-    max-width: none;
-  }
-
-  /* Scoops: keep the EXACT mobile absolute layout (identical positions) — just
-     larger, since the desktop cone is bigger. All offsets mirror the base
-     (mobile) rules 1:1; only .builder__slots width/aspect drive the scale. */
-  .builder__slots {
-    position: absolute;
-    top: 34px;
-    bottom: auto;
-    left: 44%;
-    transform: translateX(-50%);
-    width: 84%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    display: block;
-  }
-
-  .builder__slot {
-    position: absolute;
-    width: 56%;
-    height: auto;
-    aspect-ratio: 1;
-    inset: auto;
-    margin: 0;
-  }
-
-  .builder__slot:nth-child(3) { right: 8px; bottom: 0; z-index: 1; }
-  .builder__slot:nth-child(2) { left: 30px; bottom: -15px; z-index: 2; }
-  .builder__slot:nth-child(1) { left: 22%; top: 0; z-index: 3; }
-
-  /* Re-assert the hover lift here: the per-slot z-index above (later in the
-     source) would otherwise override the base rule at equal specificity. */
-  .builder__slot:hover,
-  .builder__slot:focus-within {
-    z-index: 20;
-  }
-
-  .catalog__panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-inline: 0;
-    padding-block: 0;
-    padding-right: var(--space-2);
-    background-color: transparent;
-    border-right: 2px solid var(--color-border);
-    border-radius: 0;
-  }
-
-  .catalog__list {
-    max-width: none;
-    margin-inline: 0;
-    padding-inline: 0;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-    justify-content: center;
-  }
-
-  .card__media {
-    /* Progressive growth from the small tablet size up, easing larger toward
-       the wide end of this range. */
-    max-width: clamp(var(--size-ice-cream-mobile), 12vw + 40px, 200px);
-  }
-
-  .card__title {
-    color: var(--color-text-primary);
-    text-align: center;
-  }
-
-  /* Hover outlines the scoop in brown. */
-  .card:hover .card__media,
-  .card:focus-visible .card__media {
-    outline-color: #ffffff;
-  }
-
-  /* Image + content centered inside the card. */
-  .card {
-    align-items: center;
-    text-align: center;
-  }
-
-  .card__media-wrap,
-  .card__media {
-    width: max-content;
-    margin-inline: auto;
-  }
-
-  /* Smaller price font in the catalog cards. */
-  .card__price {
-    font-size: var(--text-h4);
-  }
-
-  .builder__cone-mockup {
-    width: auto;
-  }
-
-  .builder__cone-img {
-    width: 350px;
-  }
-}
-
-
-/* =========================================================
-   Wide — 1200+ : larger scoops in the catalog cards
-   ========================================================= */
-/* =========================================================
-   Desktop — 1440+ : two-column composition
-   ========================================================= */
-@media (min-width: 1200px) {
-  /* Layout: two columns; builder behaves like the tablet (768) layout — no
-     sticky, no box (no padding/border/background), just a plain column taking
-     ~35–40% of the row. */
-  .catalog__inner {
-    flex-direction: row-reverse;
-    align-items: stretch;
-  }
-
-  .catalog__builder {
-    flex: 0 0 38%;
-    margin: 0;
-    /* Keep a 16px protective gap on the left so the builder never touches the
-       catalog divider. */
-    padding: 0 0 0 var(--space-2);
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-  }
-
-  .catalog__panel {
-    flex: 1 1 auto;
-    border-radius: 0;
-  }
-
-  /* Catalog: 3 flavors per row, with larger scoops + larger price. */
-  .catalog__list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .card__media {
-    /* Progressive growth, reaching the full --size-ice-cream (267px) around 1440. */
-    max-width: clamp(200px, 18vw, var(--size-ice-cream));
-  }
-
-  .card__price {
-    font-size: var(--text-card-price);
-  }
-
-  .builder__cone-img {
-    width: 400px;
-  }
-}
-
-
-/* =========================================================
-   6. Ice-cream media wrapper (image + price pinned bottom)
-   ========================================================= */
+/* ===================== Ice-cream media ===================== */
 .ice-cream-media {
   position: relative;
   display: flex;
@@ -1309,4 +811,326 @@ button {
   color: var(--color-text-inverse);
   background-color: var(--color-button-bg);
   border-radius: var(--radius-pill);
+}
+
+
+
+/* ===================== Tablet — 768+ ===================== */
+@media (min-width: 768px) {
+  .page__header {
+    background-color: var(--color-button-bg);
+    padding-inline: var(--space-4);
+  }
+
+  .logo,
+  .logo__mark {
+    color: var(--color-text-inverse);
+  }
+
+  .logo__text {
+    color: var(--color-text-inverse);
+  }
+
+  .cart {
+    color: var(--color-text-inverse);
+  }
+
+  .cart:hover {
+    background-color: rgba(245, 231, 184, 0.14);
+  }
+
+  .cart__count {
+    color: var(--color-button-bg);
+    background-color: var(--color-text-inverse);
+  }
+
+  .page__intro {
+    margin-bottom: var(--space-6);
+    padding-block: var(--space-8);
+    background-color: var(--color-bg-accent);
+  }
+
+  .intro__title {
+    color: var(--color-text-inverse);
+    text-align: center;
+  }
+
+  .intro__text {
+    margin-inline: auto;
+    text-align: center;
+    color: var(--color-text-inverse);
+  }
+
+  .catalog__inner {
+    flex-direction: row-reverse;
+    align-items: stretch;
+  }
+
+  .catalog__builder {
+    flex: 0 0 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: var(--space-2);
+  }
+
+  .catalog__panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-block: var(--space-4);
+    margin-inline: 0;
+    padding-block: 0;
+    padding-right: var(--space-2);
+    background-color: transparent;
+    border-right: 2px solid var(--color-border);
+    border-radius: 0;
+  }
+
+  .catalog__pill {
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    display: block;
+    align-self: flex-start;
+    margin: 0 auto var(--space-4) 0;
+    padding: 0;
+    width: auto;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-h3);
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+    background-color: transparent;
+    border-radius: 0;
+    text-align: left;
+    transition: color var(--transition-fast);
+  }
+
+  .catalog__pill:hover {
+    color: var(--color-button-bg);
+  }
+
+  .catalog__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    justify-content: center;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+
+  .catalog__card {
+    flex: initial;
+  }
+
+  .card {
+    align-items: center;
+    text-align: center;
+  }
+
+  .card:hover .card__media,
+  .card:focus-visible .card__media {
+    outline-color: #ffffff;
+  }
+
+  .card__media-wrap,
+  .card__media {
+    margin-inline: auto;
+  }
+
+  .card__title {
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  .card__price {
+    font-size: var(--text-h4);
+  }
+
+  .builder__visual {
+    height: auto;
+    aspect-ratio: auto;
+    align-items: stretch;
+    overflow: visible;
+  }
+
+  .builder__cone-mockup {
+    top: 0;
+    width: auto;
+  }
+
+  .builder__slots {
+    position: absolute;
+    top: 34px;
+    bottom: auto;
+    left: 44%;
+    transform: translateX(-50%);
+    width: 84%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    display: block;
+  }
+
+  .builder__slot {
+    position: absolute;
+    width: 56%;
+    height: auto;
+    aspect-ratio: 1;
+    inset: auto;
+    margin: 0;
+  }
+
+  .builder__slot:nth-child(3) { right: 8px; bottom: 0; z-index: 1; }
+  .builder__slot:nth-child(2) { left: 30px; bottom: -15px; z-index: 2; }
+  .builder__slot:nth-child(1) { left: 22%; top: 0; z-index: 3; }
+
+  .builder__slot:hover,
+  .builder__slot:focus-within {
+    z-index: 20;
+  }
+
+  .builder__title-pill {
+    display: none;
+  }
+
+  .builder__price {
+    position: static;
+    order: 1;
+    align-self: flex-start;
+    min-width: 165px;
+    margin-bottom: var(--space-2);
+    padding-block: var(--space-1);
+    padding-inline: var(--space-3);
+    color: var(--color-text-inverse);
+    background-color: var(--color-button-bg);
+    border-radius: var(--radius-pill);
+  }
+
+  .builder__button {
+    order: 2;
+    margin-top: 0;
+    width: 100%;
+    white-space: nowrap;
+    padding-inline: var(--space-4);
+  }
+
+  .footer {
+    margin-top: var(--space-6);
+    background-color: var(--color-button-bg);
+  }
+}
+
+/* ===================== Wide — 1200+ ===================== */
+@media (min-width: 1200px) {
+  .builder__slots {
+    top: 68px;
+  }
+
+  .catalog__inner {
+    flex-direction: row-reverse;
+    align-items: stretch;
+  }
+
+  .catalog__builder {
+    flex: 0 0 38%;
+    margin: 0;
+    padding: 0 0 0 var(--space-2);
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+  }
+
+  .catalog__panel {
+    flex: 1 1 auto;
+    border-radius: 0;
+  }
+
+  .catalog__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card__price {
+    font-size: var(--text-card-price);
+  }
+}
+
+/* ===================== max-width overrides (last) ===================== */
+
+@media (max-width: 767px) {
+  .builder__visual {
+    max-width: 450px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card__media {
+    max-width: clamp(var(--size-ice-cream-mobile), 12vw + 40px, 200px);
+  }
+
+  .builder__visual {
+    max-width: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card__media {
+    max-width: clamp(200px, 18vw, var(--size-ice-cream));
+  }
+}
+
+
+/* ===================== Mobile (<=767) ===================== */
+@media (max-width: 767px) {
+  .catalog__panel {
+    border-radius: 0;
+    z-index: 5;
+  }
+
+  .catalog__list {
+    display: flex;
+    gap: var(--slide-gap);
+    padding-inline: calc((100% - var(--slide-card)) / 2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .catalog__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalog__card {
+    flex: 0 0 var(--slide-card);
+    scroll-snap-align: center;
+  }
+
+  .card {
+    margin: 0;
+  }
+
+  .catalog__builder {
+    z-index: auto;
+  }
+
+  .builder__visual {
+    z-index: 1;
+    transition: transform var(--builder-rise-duration) ease,
+    opacity var(--builder-rise-duration) ease;
+  }
+
+  .builder__visual--entering {
+    transition: none;
+    transform: translateY(60%);
+    opacity: 0;
+  }
+
+  .builder__button {
+    z-index: 6;
+  }
 }
