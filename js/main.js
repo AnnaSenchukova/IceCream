@@ -10,7 +10,6 @@
     removeLabel: 'Удалить шарик: '
   };
 
-  /* Russian plural for "шарик" so the hint stays correct for any count/SLOTS. */
   function scoopWord(n) {
     const mod10 = n % 10;
     const mod100 = n % 100;
@@ -19,9 +18,7 @@
     return 'шариков';
   }
 
-  /* The button label carries the progressive hint:
-     0 -> "Собери мороженое", then "Добавь ещё N шарик(а/ов)",
-     full -> ready action label. Derived from count + SLOTS, never out of range. */
+
   function buttonLabel(count) {
     if (count >= SLOTS) return TEXT.buttonReady;
     if (count === 0) return TEXT.buttonBuild;
@@ -38,12 +35,9 @@
   const cartCountEl = document.querySelector('[data-cart-count]');
   const scoopTemplate = document.querySelector('#tmpl-scoop');
 
-  /* Guard every element the script touches, not just a subset. */
   if (!listEl || !slotsEl || !buttonEl || !priceEl ||
       !visualEl || !cartCountEl || !scoopTemplate) return;
 
-  /* Read the checkout delay from CSS so JS timing and the CSS transition
-     stay in sync from a single source of truth. */
   function readCheckoutDelay() {
     const raw = window.getComputedStyle(document.documentElement)
       .getPropertyValue('--builder-checkout-delay').trim();
@@ -58,8 +52,6 @@
     return digits ? parseInt(digits, 10) : 0;
   }
 
-  /* Shared image-state helper: avoids duplicating the complete/naturalWidth
-     logic between card scoops and builder scoops. */
   function onImageState(img, { onReveal, onFail }) {
     const reveal = () => onReveal && onReveal();
     const fail = () => onFail && onFail();
@@ -71,7 +63,6 @@
     }
   }
 
-  /* Flavor lookup from markup; keep a reference to the real <picture> to clone. */
   const FLAVORS = {};
   for (const card of listEl.querySelectorAll('[data-flavor]')) {
     const id = card.getAttribute('data-flavor');
@@ -101,8 +92,6 @@
     });
   }
 
-  /* Each scoop is { id, uid }; uid identifies it stably regardless of position,
-     so removal never depends on a stale index. */
   let nextUid = 0;
   const state = { scoops: new Array(SLOTS).fill(null), cart: 0 };
   let hasInteracted = false;
@@ -146,10 +135,6 @@
     return scoopEl;
   }
 
-  /* Slots are numbered 1, 2, 3 in the CSS (bottom-right, bottom-left, top),
-     but those are DOM children 2, 1, 0. FILL_ORDER maps the Nth added scoop
-     to the DOM slot that carries the matching number, so scoops fill in the
-     order the user sees: 1 -> 2 -> 3. */
   const FILL_ORDER = [];
   for (let i = 0; i < SLOTS; i++) FILL_ORDER.push(SLOTS - 1 - i);
 
@@ -158,9 +143,6 @@
     for (let i = 0; i < SLOTS; i++) {
       const slot = nodes[i];
       if (!slot) continue;
-      /* DOM slot i holds the scoop whose ORDER index maps to it via FILL_ORDER.
-         state.scoops is position-stable: a removed scoop leaves a null hole, so
-         the remaining scoops never jump to another slot. */
       const scoopIndex = FILL_ORDER.indexOf(i);
       const scoop = state.scoops[scoopIndex];
       slot.replaceChildren();
@@ -173,7 +155,6 @@
     }
   }
 
-  /* Number of scoops actually placed (ignores the null holes). */
   function scoopCount() {
     return state.scoops.reduce((n, s) => n + (s ? 1 : 0), 0);
   }
@@ -190,8 +171,6 @@
     const ready = count >= SLOTS;
     const label = buttonLabel(count);
 
-    /* The button itself carries the progressive hint now. Keep the (visually
-       hidden on mobile) status text in sync for screen readers. */
     if (statusEl) statusEl.textContent = label;
 
     buttonEl.disabled = !ready;

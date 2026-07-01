@@ -37,9 +37,9 @@
      ======================================================= */
 
   /* Размер шарика мороженого */
-  --size-ice-cream: 267px;                        /* крупный шарик (1200+) */
+  --size-ice-cream: 200px;                        /* крупный шарик (1200+) */
   --size-ice-cream-mobile: 150px;                 /* мелкий шарик (мобила/планшет) */
-  --size-ice-cream-fluid: clamp(150px, 36vw, 277px); /* резиновый рост 150→277 */
+  --size-ice-cream-fluid: clamp(150px, 36vw, 200px); /* резиновый рост 150→277 */
 
   /* Мобильный слайдер вкусов */
   --slide-card: 50vw;   /* ширина карточки в ленте (0.5 экрана) */
@@ -79,7 +79,7 @@
   --text-h4: clamp(1.25rem, 0.72rem + 1vw, 1.875rem);
   --text-body: clamp(1rem, 0.84rem + 0.5vw, 1.4375rem);
   --text-price: clamp(2rem, 1.26rem + 2.3vw, 4rem);
-  --text-card-price: clamp(1.5rem, 1rem + 2.3vw, 4rem);
+  --text-card-price: clamp(1.5rem, 1rem + 2.3vw, 2.5rem);
   --text-badge: clamp(1rem, 0.72rem + 0.9vw, 1.875rem);
   --text-button: clamp(1.375rem, 1rem + 0.28vw, 1.5625rem);
 
@@ -971,6 +971,7 @@ button {
   }
 
   .page__footer {
+    margin-top: var(--space-6);
     background-color: var(--color-button-bg);
   }
 
@@ -999,10 +1000,10 @@ button {
 
   /* ---- Desktop intro: cream centered text on a brown block, 64px padding ---- */
   .page__intro {
+    margin-bottom: var(--space-6);
     padding-block: var(--space-8);
     background-color: var(--color-bg-accent);
   }
-
 
   .intro__title {
     color: var(--color-text-inverse);
@@ -1164,12 +1165,12 @@ button {
   }
 
   .catalog__panel {
-    margin-block: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-inline: 0;
-    padding-block: var(--space-8);
+    padding-block: 0;
     padding-right: var(--space-2);
-    /* Transparent-cream backdrop (same butter tone as the page), with only a
-       2px brown border on the right edge. No rounded corners. */
     background-color: transparent;
     border-right: 2px solid var(--color-border);
     border-radius: 0;
@@ -1185,7 +1186,9 @@ button {
   }
 
   .card__media {
-    max-width: var(--size-ice-cream-mobile);
+    /* Progressive growth from the small tablet size up, easing larger toward
+       the wide end of this range. */
+    max-width: clamp(var(--size-ice-cream-mobile), 12vw + 40px, 200px);
   }
 
   .card__title {
@@ -1196,7 +1199,7 @@ button {
   /* Hover outlines the scoop in brown. */
   .card:hover .card__media,
   .card:focus-visible .card__media {
-    outline-color: var(--color-button-bg);
+    outline-color: #ffffff;
   }
 
   /* Image + content centered inside the card. */
@@ -1229,33 +1232,26 @@ button {
 /* =========================================================
    Wide — 1200+ : larger scoops in the catalog cards
    ========================================================= */
-@media (min-width: 1200px) {
-  .card__media {
-    max-width: var(--size-ice-cream);
-  }
-
-  .catalog__list {
-    grid-template-columns: repeat(auto-fit, minmax(267px, 1fr));
-  }
-}
-
 /* =========================================================
    Desktop — 1440+ : two-column composition
    ========================================================= */
 @media (min-width: 1200px) {
+  /* Layout: two columns; builder behaves like the tablet (768) layout — no
+     sticky, no box (no padding/border/background), just a plain column taking
+     ~35–40% of the row. */
   .catalog__inner {
     flex-direction: row-reverse;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .catalog__builder {
-    position: sticky;
-    top: var(--space-6);
-    flex: 0 0 420px;
-    margin-bottom: 0;
-    padding: var(--space-6);
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-border);
+    flex: 0 0 38%;
+    margin: 0;
+    /* Keep a 16px protective gap on the left so the builder never touches the
+       catalog divider. */
+    padding: 0 0 0 var(--space-2);
+    background-color: transparent;
+    border: none;
     border-radius: 0;
   }
 
@@ -1264,8 +1260,20 @@ button {
     border-radius: 0;
   }
 
-  /* Keep the mobile-like absolute scoop layout + enlarged cone from 768; just
-     bump the cone a touch more on very wide screens. */
+  /* Catalog: 3 flavors per row, with larger scoops + larger price. */
+  .catalog__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card__media {
+    /* Progressive growth, reaching the full --size-ice-cream (267px) around 1440. */
+    max-width: clamp(200px, 18vw, var(--size-ice-cream));
+  }
+
+  .card__price {
+    font-size: var(--text-card-price);
+  }
+
   .builder__cone-img {
     width: 400px;
   }
@@ -1288,8 +1296,8 @@ button {
 
 .ice-cream-media .price {
   position: absolute;
-  inset-inline-start: var(--space-1);  /* 8px from the left edge */
-  bottom: var(--space-1);              /* 8px from the bottom edge */
+  inset-inline-start: var(--space-1);
+  bottom: var(--space-1);
   z-index: 2;
   padding-block: var(--space-1);
   padding-inline: var(--space-2);
