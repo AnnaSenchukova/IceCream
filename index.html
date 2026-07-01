@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gelatelier&nbsp;— Конструктор мороженого</title>
+  <link rel="preload" href="fonts/avenir-next-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/roboto-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/roboto-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page__header">
+      <div class="container header__inner">
+        <a class="header__logo logo" href="#" aria-label="Gelatelier — на главную">
+          <svg class="logo__mark" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false">
+            <path class="logo__mark-path" d="M20 4c5.5 0 10 4.4 10 9.8 0 1.6-.4 3.1-1.1 4.5H11.1A9.7 9.7 0 0 1 10 13.8C10 8.4 14.5 4 20 4Z" fill="currentColor"/>
+            <path class="logo__mark-cone" d="M11.6 19.6h16.8L20 37 11.6 19.6Z" fill="currentColor" opacity="0.55"/>
+          </svg>
+          <span class="logo__text">Gelatelier</span>
+        </a>
+        <a class="header__cart cart" href="#" target="_blank" aria-label="Корзина">
+          <span class="visually-hidden">Корзина</span>
+          <svg class="cart__icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+            <path class="cart__icon-path" d="M3 4h3l2.6 13.2a2 2 0 0 0 2 1.6h9.2a2 2 0 0 0 2-1.5L25 8H7.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle class="cart__icon-wheel" cx="11" cy="23.5" r="1.8" fill="currentColor"/>
+            <circle class="cart__icon-wheel" cx="20" cy="23.5" r="1.8" fill="currentColor"/>
+          </svg>
+          <span class="cart__count" data-cart-count>0</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="page__main">
+      <section class="page__intro intro">
+        <div class="container">
+          <h1 class="intro__title">Мороженое<br>на&nbsp;твой вкус</h1>
+          <p class="intro__text">Собери собственный рожок из&nbsp;трёх шариков. Шесть авторских вкусов, выверенный баланс и&nbsp;чистая текстура в&nbsp;каждой порции.</p>
+        </div>
+      </section>
+
+      <section class="page__section catalog">
+        <h2 class="visually-hidden">Конструктор и&nbsp;каталог вкусов</h2>
+        <div class="container catalog__inner">
+
+          <section class="catalog__builder builder" data-builder>
+            <h3 class="visually-hidden">Собери своё мороженое</h3>
+            <span class="builder__price" data-builder-price>0&nbsp;₽</span>
+            <div class="builder__visual" data-builder-visual>
+              <ul class="builder__slots" data-slots>
+                <li class="builder__slot builder__slot--empty" data-slot="0"></li>
+                <li class="builder__slot builder__slot--empty" data-slot="1"></li>
+                <li class="builder__slot builder__slot--empty" data-slot="2"></li>
+              </ul>
+              <picture class="builder__cone-mockup">
+                <source type="image/webp" srcset="img/builder-cone.webp 1x, img/builder-cone@2x.webp 2x">
+                <source type="image/png" srcset="img/builder-cone.png 1x, img/builder-cone@2x.png 2x">
+                <img class="builder__cone-img" src="img/builder-cone.png" alt="Вафельный рожок" width="967" height="1627">
+              </picture>
+            </div>
+            <noscript>
+              <p class="builder__noscript">Для&nbsp;сборки рожка включите JavaScript. Каталог вкусов и&nbsp;цены доступны ниже.</p>
+            </noscript>
+            <button class="builder__button builder__button--disabled" type="submit" data-add disabled>Собери мороженое</button>
+          </section>
+
+          <section class="catalog__panel">
+            <h3 class="catalog__pill">Выбери вкус</h3>
+            <ul class="catalog__list" data-flavors>
+              <li class="catalog__card card card--vanilla" data-flavor="vanilla">
+                <h4 class="card__title">Ваниль Бурбон</h4>
+                <div class="card__media-wrap">
+                  <picture class="card__media">
+                  <source type="image/webp" srcset="img/card-vanilla.webp 1x, img/card-vanilla@2x.webp 2x">
+                  <source type="image/png" srcset="img/card-vanilla.png 1x, img/card-vanilla@2x.png 2x">
+                  <img class="card__img" src="img/card-vanilla.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
+                  <p class="card__price">180&nbsp;₽</p>
+                </div>
+              </li>
+
+              <li class="catalog__card card card--blueberries" data-flavor="blueberries">
+                <h4 class="card__title">Голубика</h4>
+                <div class="card__media-wrap">
+                  <picture class="card__media">
+                  <source type="image/webp" srcset="img/card-blueberries.webp 1x, img/card-blueberries@2x.webp 2x">
+                  <source type="image/png" srcset="img/card-blueberries.png 1x, img/card-blueberries@2x.png 2x">
+                  <img class="card__img" src="img/card-blueberries.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
+                  <p class="card__price">240&nbsp;₽</p>
+                  <p class="card__badge">HIT</p>
+                </div>
+              </li>
+
+              <li class="catalog__card card card--strawberry" data-flavor="strawberry">
+                <h4 class="card__title">Клубника</h4>
+                <div class="card__media-wrap">
+                  <picture class="card__media">
+                  <source type="image/webp" srcset="img/card-strawberry.webp 1x, img/card-strawberry@2x.webp 2x">
+                  <source type="image/png" srcset="img/card-strawberry.png 1x, img/card-strawberry@2x.png 2x">
+                  <img class="card__img" src="img/card-strawberry.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
+                  <p class="card__price">210&nbsp;₽</p>
+                </div>
+              </li>
+
+              <li class="catalog__card card card--chocolate" data-flavor="chocolate">
+                <h4 class="card__title">Тёмный шоколад</h4>
+                <div class="card__media-wrap">
+                  <picture class="card__media">
+                  <source type="image/webp" srcset="img/card-chocolate.webp 1x, img/card-chocolate@2x.webp 2x">
+                  <source type="image/png" srcset="img/card-chocolate.png 1x, img/card-chocolate@2x.png 2x">
+                  <img class="card__img" src="img/card-chocolate.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
+                  <p class="card__price">230&nbsp;₽</p>
+                  <p class="card__badge">NEW</p>
+                </div>
+              </li>
+
+              <li class="catalog__card card card--matcha" data-flavor="matcha">
+                <h4 class="card__title">Матча</h4>
+                <div class="card__media-wrap">
+                  <picture class="card__media">
+                  <source type="image/webp" srcset="img/card-matcha.webp 1x, img/card-matcha@2x.webp 2x">
+                  <source type="image/png" srcset="img/card-matcha.png 1x, img/card-matcha@2x.png 2x">
+                  <img class="card__img" src="img/card-matcha.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
+                  <p class="card__price">250&nbsp;₽</p>
+                </div>
+              </li>
+
+              <li class="catalog__card card card--caramel" data-flavor="caramel">
+                <h4 class="card__title">Солёная карамель</h4>
+                <div class="card__media-wrap">
+                  <picture class="card__media">
+                  <source type="image/webp" srcset="img/card-caramel.webp 1x, img/card-caramel@2x.webp 2x">
+                  <source type="image/png" srcset="img/card-caramel.png 1x, img/card-caramel@2x.png 2x">
+                  <img class="card__img" src="img/card-caramel.png" alt="" width="267" height="267" loading="lazy">
+                </picture>
+                  <p class="card__price">220&nbsp;₽</p>
+                  <p class="card__badge">HIT</p>
+                </div>
+              </li>
+
+          </ul>
+          </section>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="page__footer footer">
+      <div class="container footer__inner">
+        <span class="footer__text">© 2026&nbsp;Gelatelier. Сделано с&nbsp;любовью к&nbsp;текстуре.</span>
+      </div>
+    </footer>
+  </div>
+
+  <template id="tmpl-scoop">
+    <span class="builder__scoop">
+      <button class="builder__remove" type="button">
+        <svg class="builder__remove-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </span>
+  </template>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
