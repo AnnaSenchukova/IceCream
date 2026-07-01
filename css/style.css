@@ -32,6 +32,25 @@
    2. CSS variables
    ========================================================= */
 :root {
+  /* =======================================================
+     ⚙️  НАСТРОЙКИ  —  меняй значения ЗДЕСЬ, не углубляясь в код.
+     ======================================================= */
+
+  /* Размер шарика мороженого */
+  --size-ice-cream: 267px;                        /* крупный шарик (1200+) */
+  --size-ice-cream-mobile: 150px;                 /* мелкий шарик (мобила/планшет) */
+  --size-ice-cream-fluid: clamp(150px, 36vw, 277px); /* резиновый рост 150→277 */
+
+  /* Мобильный слайдер вкусов */
+  --slide-card: 50vw;   /* ширина карточки в ленте (0.5 экрана) */
+  --slide-gap: 24px;    /* промежуток между карточками */
+
+  /* Боковые поля контейнера */
+  --gutter-mobile: 16px;   /* поля по краям на мобиле */
+  --gutter-desktop: 64px;  /* поля по краям от планшета */
+
+  /* ======================================================= */
+
   /* Breakpoints */
   --bp-mobile: 320px;
   --bp-tablet: 768px;
@@ -39,11 +58,7 @@
 
   /* Layout */
   --container-max: 1500px;
-  --space-container: 16px;
-
-  /* Size */
-  --size-ice-cream: 267px;
-  --size-ice-cream-mobile: 150px;
+  --space-container: var(--gutter-mobile);
 
   /* Dynamic scoop/card color (overridden inline per flavor via JS) */
   --card-color: #e7c8a0;
@@ -54,15 +69,19 @@
   --font-body: "Roboto", "Inter", "Helvetica Neue", Arial, sans-serif;
 
   /* Typography */
-  --text-h1: clamp(3.5rem, 1.9rem + 5vw, 8.75rem);
+  --text-logo: 1.375rem;
+  --text-pill: 0.9375rem;
+  --text-count: 0.75rem;
+  --text-footer: 0.875rem;
+  --text-h1: clamp(2.5rem, 1.6rem + 5vw, 8.75rem);
   --text-h2: clamp(2.375rem, 1.45rem + 2.9vw, 4.875rem);
   --text-h3: clamp(1.375rem, 1.05rem + 1vw, 1.875rem);
-  --text-h4: 1.875rem; /* 30px */
-  --text-h1-mobile: clamp(2.5rem, 1.6rem + 4vw, 3.5rem);
+  --text-h4: clamp(1.25rem, 0.72rem + 1vw, 1.875rem);
   --text-body: clamp(1rem, 0.84rem + 0.5vw, 1.4375rem);
   --text-price: clamp(2rem, 1.26rem + 2.3vw, 4rem);
+  --text-card-price: clamp(1.5rem, 1rem + 2.3vw, 4rem);
   --text-badge: clamp(1rem, 0.72rem + 0.9vw, 1.875rem);
-  --text-button: clamp(1rem, 0.82rem + 0.56vw, 1.5625rem);
+  --text-button: clamp(1.375rem, 1rem + 0.28vw, 1.5625rem);
 
   /* Line height */
   --leading-tight: 0.9;
@@ -127,13 +146,6 @@
   --flavor-matcha: #a7bf91;
   --flavor-caramel: #d8a86a;
 
-  /* Static font sizes (non-fluid) */
-  --text-logo: 1.375rem;
-  --text-pill: 0.9375rem;
-  --text-count: 0.75rem;
-  --text-footer: 0.875rem;
-  --text-card-price: clamp(1.5rem, 1rem + 2.3vw, 4rem);
-  --text-card-badge: clamp(0.75rem, 0.6rem + 0.5vw, 1.875rem);
 
   /* Gradients */
   --gradient-scoop-sheen: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 60%);
@@ -187,7 +199,7 @@ video {
 ul,
 ol {
   margin: 0;
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 
 ul {
@@ -208,8 +220,10 @@ button {
 .container {
   width: 100%;
   max-width: 1500px;
-  margin: 0 auto;
-  padding: 0 var(--space-container);
+  margin-block: 0;
+  margin-inline: auto;
+  padding-block: 0;
+  padding-inline: var(--space-container);
   overflow: visible;
 }
 
@@ -239,7 +253,8 @@ button {
 
 /* ---- header / logo / cart ---- */
 .page__header {
-  padding: var(--space-3) 0;
+  padding-block: var(--space-3);
+  padding-inline: 0;
 }
 
 .header__inner {
@@ -298,7 +313,8 @@ button {
   justify-content: center;
   min-width: 20px;
   height: 20px;
-  padding: 0 5px;
+  padding-block: 0;
+  padding-inline: 5px;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: var(--text-count);
@@ -315,10 +331,11 @@ button {
 }
 
 .intro__title {
-  margin: 0 0 var(--space-3);
+  margin-block: 0 var(--space-3);
+  margin-inline: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--text-h1-mobile);
+  font-size: var(--text-h1);
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-h1);
   text-transform: uppercase;
@@ -327,7 +344,8 @@ button {
 
 .intro__text {
   max-width: 520px;
-  margin: 0 auto;
+  margin-block: 0;
+  margin-inline: auto;
   font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--text-body);
@@ -365,14 +383,11 @@ button {
 .catalog__panel {
   position: relative;
   z-index: 2;
-  margin-top: 0;
-  /* Pull out of the .container side gutters so the accent background spans the
-     full screen width. Vertical padding stays; horizontal padding is 0 (the ul
-     gets its own inner gutter below). */
+  margin-top: calc(-1 * var(--space-6) / 2);
   margin-inline: calc(-1 * var(--space-container));
-  padding: var(--space-8) 0 var(--space-6);
+  padding-block: var(--space-6) var(--space-4);
+  padding-inline: 0;
   background-color: var(--color-bg-accent);
-  border-radius: var(--radius-block) var(--radius-block) var(--space-6) var(--space-6);
 }
 
 /* The flavor grid keeps the container max-width + inner gutters, centered. */
@@ -389,7 +404,8 @@ button {
   transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
-  padding: var(--space-1) var(--space-3);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   font-family: var(--font-body);
   font-weight: 500;
   font-size: var(--text-pill);
@@ -420,16 +436,6 @@ button {
   transition: transform var(--transition-base);
 }
 
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card:focus-visible {
-  outline: 2px solid var(--color-text-primary);
-  outline-offset: 6px;
-  border-radius: var(--space-3);
-}
-
 .card--vanilla     { --card-color: var(--flavor-vanilla); }
 .card--blueberries { --card-color: var(--flavor-blueberries); }
 .card--strawberry  { --card-color: var(--flavor-strawberry); }
@@ -437,17 +443,31 @@ button {
 .card--matcha      { --card-color: var(--flavor-matcha); }
 .card--caramel     { --card-color: var(--flavor-caramel); }
 
+.card__media-wrap {
+  order: -1;
+  position: relative;
+  width: 100%;
+  max-width: var(--size-ice-cream-fluid);
+  margin-bottom: var(--space-2);
+  padding-top: var(--space-1);
+}
+
 .card__media {
   order: -1;
   position: relative;
   width: 100%;
-  max-width: clamp(150px, 36vw, 277px);
+  max-width: var(--size-ice-cream-fluid);
   height: auto;
   aspect-ratio: 1;
   border-radius: var(--radius-round);
-  overflow: hidden;
   background: var(--gradient-scoop-sheen),
               var(--card-color);
+}
+
+.card:hover .card__media,
+.card:focus-visible .card__media {
+  outline: 6px solid var(--color-border);
+  border-radius: 50%;
 }
 
 
@@ -479,7 +499,8 @@ button {
 }
 
 .builder__noscript {
-  margin: 0 0 var(--space-3);
+  margin-block: 0 var(--space-3);
+  margin-inline: 0;
   font-family: var(--font-body);
   font-size: var(--text-pill);
   line-height: var(--leading-snug);
@@ -491,9 +512,10 @@ button {
   position: absolute;
   z-index: 4;
   left: -8px;
-  bottom: 52px;
+  bottom: var(--space-1);
   margin: 0;
-  padding: var(--space-1) var(--space-3);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-2);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-card-price);
@@ -510,10 +532,11 @@ button {
   right: 6px;
   z-index: 4;
   margin: 0;
-  padding: 4px var(--space-1);
+  padding-block: 4px;
+  padding-inline: var(--space-1);
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: var(--text-card-badge);
+  font-size: var(--text-badge);
   line-height: var(--leading-full);
   text-transform: uppercase;
   color: var(--color-badge-text);
@@ -528,6 +551,7 @@ button {
 }
 
 .card__title {
+  margin: 0;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: var(--text-h4);
@@ -552,7 +576,8 @@ button {
 .builder__title-pill {
   display: none;
   align-items: center;
-  padding: var(--space-1) var(--space-3);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   font-family: var(--font-body);
   font-weight: 500;
   font-size: var(--text-pill);
@@ -566,15 +591,18 @@ button {
 
 .builder__price {
   position: absolute;
-  top: 40%;
-  left: -8px;
+  top: 8px;
+  right: -16px;
   z-index: 3;
-  padding: var(--space-1) var(--space-3);
+  min-width: 130px;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-price);
   line-height: var(--leading-price);
   text-transform: uppercase;
+  text-align: center;
   color: var(--color-text-inverse);
   background-color: var(--color-button-bg);
   border-radius: var(--radius-pill);
@@ -586,7 +614,8 @@ button {
   justify-content: center;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+  margin-block: 0;
+  margin-inline: auto;
   transition: transform var(--builder-checkout-delay) ease, opacity var(--builder-checkout-delay) ease;
 }
 
@@ -616,7 +645,7 @@ button {
 
 .builder__slots {
   position: absolute;
-  top: 8%;
+  top: 0;
   left: 47%;
   transform: translateX(-50%);
   z-index: 2;
@@ -634,37 +663,25 @@ button {
   transition: transform var(--transition-base);
 }
 
-.builder__slot:nth-child(3) { right: 0; bottom: 0; z-index: 1; }     /* bottom-right */
-.builder__slot:nth-child(2) { left: 0; bottom: 0; z-index: 2; }      /* bottom-left */
-.builder__slot:nth-child(1) { left: 22%; bottom: 34%; z-index: 3; }  /* top, left of center */
+.builder__slot:nth-child(3) { right: 8px; bottom: 0; z-index: 1; }     /* bottom-right */
+.builder__slot:nth-child(2) { left: 30px; bottom: -15px; z-index: 2; }      /* bottom-left */
+.builder__slot:nth-child(1) { left: 22%; top: 0; z-index: 3; }  /* top, left of center */
 
-.builder__slot--empty {
-  border: 4px dashed rgba(255, 255, 255, 0.85);
-  background: rgba(255, 255, 255, 0.18);
+
+.builder__slot--empty:nth-child(1) {
+  border: 6px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-/* Number the empty skeleton slots by their position: 1, 2, 3
-   (white, semi-transparent). Tied to slot position, not to a counter,
-   so a filled slot in the middle never shifts the visible numbers. */
-.builder__slot--empty::before {
-  content: var(--slot-number, '');
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2rem;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.55);
+.builder__slot--empty:nth-child(2) {
+  border: 6px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.3);
 }
 
-/* Default numbering shown before the user interacts with the builder.
-   Once JS sets --slot-number on a slot, that value wins over these. */
-.builder__slot:nth-child(1).builder__slot--empty { --slot-number: '3'; }
-.builder__slot:nth-child(2).builder__slot--empty { --slot-number: '2'; }
-.builder__slot:nth-child(3).builder__slot--empty { --slot-number: '1'; }
+.builder__slot--empty:nth-child(3) {
+  border: 6px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.2);
+}
 
 .builder__slot--filled {
   border: none;
@@ -704,7 +721,7 @@ button {
 .builder__remove {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -721,18 +738,22 @@ button {
 }
 
 .builder__remove-icon {
-  width: 22px;
-  height: 22px;
+  position: relative;
+  z-index: 100;
+  width: 30%;
+  height: 30%;
+  color: var(--color-icon-primary)
 }
 
 .builder__status {
-  margin: 0 0 var(--space-3);
+  margin-block: 0 var(--space-3);
+  margin-inline: 0;
   font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--text-body);
   line-height: var(--leading-snug);
   text-align: center;
-  color: var(--color-text-secondary);
+  color: var(--color-button-bg);
 }
 
 .builder__button {
@@ -740,9 +761,9 @@ button {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 320px;
   min-height: 56px;
-  padding: 0 var(--space-4);
+  padding-block: 0;
+  padding-inline: var(--space-3);
   font-family: var(--font-body);
   font-weight: 500;
   font-size: var(--text-button);
@@ -785,7 +806,8 @@ button {
 /* ---- footer ---- */
 .page__footer {
   margin-top: auto;
-  padding: var(--space-6) 0;
+  padding-block: var(--space-6);
+  padding-inline: 0;
 }
 
 .footer__text {
@@ -832,11 +854,6 @@ button {
   z-index: 3;
 }
 
-/* Flavor panel: full-bleed background, no top overlap on mobile. */
-.catalog__panel {
-  margin-top: 0;
-}
-
 
 
 /* =========================================================
@@ -847,13 +864,11 @@ button {
      Everything is derived from a single card-width var so the visible fraction
      of the neighbouring scoops never drifts when the screen resizes. */
   .catalog__list {
-    --slide-card: 64vw;            /* width of one card */
-    --slide-gap: var(--space-3);   /* gap between cards */
     display: flex;
     gap: var(--slide-gap);
     /* Side gutter = half a card + one gap, so a snapped card is centered and
        exactly half of each neighbour shows past the screen edges. */
-    padding-inline: calc(var(--slide-card) / 2 + var(--slide-gap));
+    padding-inline: calc((100vw - var(--slide-card)) / 2);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
@@ -878,43 +893,9 @@ button {
     border-radius: 0;
   }
 
-  /* Build button spans the full window width. */
-  .builder__button {
-    max-width: none;
-  }
-
-  /* Builder total price sits in the flow, ~32px above the button. */
-  .builder__price {
-    position: static;
-    top: auto;
-    left: auto;
-    margin-bottom: var(--space-4);
-    text-align: center;
-  }
-
-  /* Slider card width. */
-  .catalog__list {
-    --slide-card: 50vw;
-  }
-
   /* Card: no outer margins; title spaced 16px under the image. */
   .card {
     margin: 0;
-  }
-
-  .card__title {
-    margin-top: var(--space-2);
-  }
-
-  /* Price plate: 24px up from the photo bottom, flush to the side (left 0). */
-  .card__price {
-    left: 0;
-    bottom: 24px;
-  }
-
-  /* Slider list: small vertical margins (32px top & bottom). */
-  .catalog__list {
-    margin-block: var(--space-4);
   }
 }
 
@@ -924,7 +905,7 @@ button {
    ========================================================= */
 @media (min-width: 768px) {
   :root {
-    --space-container: 64px;
+    --space-container: var(--gutter-desktop);
   }
 
   /* Two columns from tablet up: builder on the right, catalog on the left,
@@ -999,7 +980,8 @@ button {
   }
 
   .builder {
-    padding: var(--space-4) var(--space-3) var(--space-10);
+    padding-block: var(--space-4) var(--space-10);
+  padding-inline: var(--space-3);
   }
 
   .builder__title-pill {
@@ -1049,7 +1031,8 @@ button {
 
   .catalog__panel {
     margin-inline: 0;
-    padding: var(--space-10) var(--space-8) var(--space-8);
+    padding-block: var(--space-10) var(--space-8);
+  padding-inline: var(--space-8);
   }
 
   .catalog__list {
@@ -1063,10 +1046,6 @@ button {
 
   .card__media {
     max-width: var(--size-ice-cream-mobile);
-  }
-
-  .card__price {
-    bottom: 64px;
   }
 
   .builder__cone-mockup {
@@ -1132,4 +1111,36 @@ button {
   .builder__cone-img {
     width: 240px;
   }
+}
+
+
+/* =========================================================
+   6. Ice-cream media wrapper (image + price pinned bottom)
+   ========================================================= */
+.ice-cream-media {
+  position: relative;
+  display: flex;
+}
+
+.ice-cream-media > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ice-cream-media .price {
+  position: absolute;
+  inset-inline-start: var(--space-1);  /* 8px from the left edge */
+  bottom: var(--space-1);              /* 8px from the bottom edge */
+  z-index: 2;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-card-price);
+  line-height: var(--leading-price);
+  text-transform: uppercase;
+  color: var(--color-text-inverse);
+  background-color: var(--color-button-bg);
+  border-radius: var(--radius-pill);
 }
