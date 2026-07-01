@@ -33,21 +33,21 @@
    ========================================================= */
 :root {
   /* =======================================================
-     ⚙️  НАСТРОЙКИ  —  меняй значения ЗДЕСЬ, не углубляясь в код.
+     \u2699\ufe0f  \u041d\u0410\u0421\u0422\u0420\u041e\u0419\u041a\u0418  \u2014  \u043c\u0435\u043d\u044f\u0439 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f \u0417\u0414\u0415\u0421\u042c, \u043d\u0435 \u0443\u0433\u043b\u0443\u0431\u043b\u044f\u044f\u0441\u044c \u0432 \u043a\u043e\u0434.
      ======================================================= */
 
-  /* Размер шарика мороженого */
-  --size-ice-cream: 267px;                        /* крупный шарик (1200+) */
-  --size-ice-cream-mobile: 150px;                 /* мелкий шарик (мобила/планшет) */
-  --size-ice-cream-fluid: clamp(150px, 36vw, 277px); /* резиновый рост 150→277 */
+  /* \u0420\u0430\u0437\u043c\u0435\u0440 \u0448\u0430\u0440\u0438\u043a\u0430 \u043c\u043e\u0440\u043e\u0436\u0435\u043d\u043e\u0433\u043e */
+  --size-ice-cream: 267px;                        /* \u043a\u0440\u0443\u043f\u043d\u044b\u0439 \u0448\u0430\u0440\u0438\u043a (1200+) */
+  --size-ice-cream-mobile: 150px;                 /* \u043c\u0435\u043b\u043a\u0438\u0439 \u0448\u0430\u0440\u0438\u043a (\u043c\u043e\u0431\u0438\u043b\u0430/\u043f\u043b\u0430\u043d\u0448\u0435\u0442) */
+  --size-ice-cream-fluid: clamp(150px, 36vw, 277px); /* \u0440\u0435\u0437\u0438\u043d\u043e\u0432\u044b\u0439 \u0440\u043e\u0441\u0442 150\u2192277 */
 
-  /* Мобильный слайдер вкусов */
-  --slide-card: 50vw;   /* ширина карточки в ленте (0.5 экрана) */
-  --slide-gap: 24px;    /* промежуток между карточками */
+  /* \u041c\u043e\u0431\u0438\u043b\u044c\u043d\u044b\u0439 \u0441\u043b\u0430\u0439\u0434\u0435\u0440 \u0432\u043a\u0443\u0441\u043e\u0432 */
+  --slide-card: 50vw;   /* \u0448\u0438\u0440\u0438\u043d\u0430 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u0432 \u043b\u0435\u043d\u0442\u0435 (0.5 \u044d\u043a\u0440\u0430\u043d\u0430) */
+  --slide-gap: 24px;    /* \u043f\u0440\u043e\u043c\u0435\u0436\u0443\u0442\u043e\u043a \u043c\u0435\u0436\u0434\u0443 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0430\u043c\u0438 */
 
-  /* Боковые поля контейнера */
-  --gutter-mobile: 16px;   /* поля по краям на мобиле */
-  --gutter-desktop: 64px;  /* поля по краям от планшета */
+  /* \u0411\u043e\u043a\u043e\u0432\u044b\u0435 \u043f\u043e\u043b\u044f \u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440\u0430 */
+  --gutter-mobile: 16px;   /* \u043f\u043e\u043b\u044f \u043f\u043e \u043a\u0440\u0430\u044f\u043c \u043d\u0430 \u043c\u043e\u0431\u0438\u043b\u0435 */
+  --gutter-desktop: 64px;  /* \u043f\u043e\u043b\u044f \u043f\u043e \u043a\u0440\u0430\u044f\u043c \u043e\u0442 \u043f\u043b\u0430\u043d\u0448\u0435\u0442\u0430 */
 
   /* ======================================================= */
 
@@ -110,6 +110,7 @@
 
   /* Transition */
   --builder-checkout-delay: 360ms;
+  --builder-rise-duration: 640ms;   /* всплытие нового рожка снизу (медленнее ухода) */
   --transition-fast: 160ms ease;
   --transition-base: 240ms ease;
   --transition-slow: 360ms ease;
@@ -152,6 +153,14 @@
 
   /* Shadows */
   --shadow-card-selected: 0 0 0 3px var(--color-button-bg);
+}
+
+/* =========================================================
+   2b. Keyframes (all animations live here)
+   ========================================================= */
+@keyframes scoop-shimmer {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
 }
 
 /* =========================================================
@@ -327,7 +336,7 @@ button {
 /* ---- intro ---- */
 .page__intro {
   padding-top: var(--space-4);
-  padding-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
 }
 
 .intro__title {
@@ -376,7 +385,7 @@ button {
 /* builder overlaps under the accent panel on mobile */
 .catalog__builder {
   position: relative;
-  z-index: 1;
+  z-index: auto;
   margin-bottom: 0;
 }
 
@@ -471,12 +480,6 @@ button {
 }
 
 
-
-
-@keyframes scoop-shimmer {
-  from { background-position: 150% 0; }
-  to { background-position: -50% 0; }
-}
 
 
 .card__img {
@@ -667,6 +670,13 @@ button {
 .builder__slot:nth-child(2) { left: 30px; bottom: -15px; z-index: 2; }      /* bottom-left */
 .builder__slot:nth-child(1) { left: 22%; top: 0; z-index: 3; }  /* top, left of center */
 
+/* On hover/focus a scoop lifts above its neighbours so its remove (✕) button
+   is never covered by the top scoop. */
+.builder__slot:hover,
+.builder__slot:focus-within {
+  z-index: 20;
+}
+
 
 .builder__slot--empty:nth-child(1) {
   border: 6px solid rgba(255, 255, 255, 0.85);
@@ -835,7 +845,7 @@ button {
   display: none;
 }
 
-/* Hide the "Выбери вкус" panel pill on mobile — the "Собери мороженое"
+/* Hide the "\u0412\u044b\u0431\u0435\u0440\u0438 \u0432\u043a\u0443\u0441" panel pill on mobile \u2014 the "\u0421\u043e\u0431\u0435\u0440\u0438 \u043c\u043e\u0440\u043e\u0436\u0435\u043d\u043e\u0435"
    builder button below the cone is the only call to action here. */
 .catalog__pill {
   display: none;
@@ -851,7 +861,7 @@ button {
 /* Keep the whole builder (incl. the button) above the panel so the overlapping
    flavor panel never covers the call-to-action. */
 .catalog__builder {
-  z-index: 3;
+  z-index: auto;
 }
 
 
@@ -891,17 +901,51 @@ button {
   /* The pink slider panel has no rounded corners on mobile. */
   .catalog__panel {
     border-radius: 0;
+    /* Flavor catalog sits ABOVE the rising ice cream, so the new cone emerges
+       from behind it instead of over it. */
+    z-index: 5;
+  }
+
+  /* The rising ice cream must stay BELOW the catalog panel. */
+  .builder__visual {
+    z-index: 1;
+  }
+
+  /* Keep the build button clickable and on top of everything. */
+  .builder__button {
+    z-index: 6;
   }
 
   /* Card: no outer margins; title spaced 16px under the image. */
   .card {
     margin: 0;
   }
+
+  /* Mobile checkout motion: leaving keeps the base side-swipe; only the NEW
+     cone changes — it starts BELOW and slides UP into place. Uses a transition
+     (not a keyframe animation) so the JS class-toggle drives it: JS adds
+     --entering (start state below), then removes it next frame -> it eases up.
+     The catalog + button (z-index: 4) sit above, so it emerges from under them. */
+  .builder__visual {
+    transition: transform var(--builder-rise-duration) ease,
+                opacity var(--builder-rise-duration) ease;
+  }
+
+  /* Start the new cone lower inside the frame and slide it UP.
+     transition:none makes it JUMP to the start point instantly (otherwise it
+     would smoothly travel from the leaving side-swipe position -> looks like a
+     side entry). After JS removes the class next frame, the base transition
+     eases it up. overflow:hidden clips a full 120% start, so we use 60%. */
+  .builder__visual--entering {
+    transition: none;
+    transform: translateY(60%);
+    opacity: 0;
+  }
 }
 
 
 /* =========================================================
-   Tablet — 768+
+   Tablet \u2014 768+
    ========================================================= */
 @media (min-width: 768px) {
   :root {
@@ -938,7 +982,7 @@ button {
     flex: initial;
   }
 
-  /* Undo the mobile cone clipping — show the full ice cream again */
+  /* Undo the mobile cone clipping \u2014 show the full ice cream again */
   .builder__visual {
     height: auto;
     aspect-ratio: auto;
@@ -958,7 +1002,7 @@ button {
     margin-top: 0;
   }
 
-  /* Bring back the "Выбери вкус" panel pill from tablet up */
+  /* Bring back the "\u0412\u044b\u0431\u0435\u0440\u0438 \u0432\u043a\u0443\u0441" panel pill from tablet up */
   .catalog__pill {
     display: inline-flex;
   }
@@ -1029,6 +1073,13 @@ button {
   .builder__slot:nth-child(2) { z-index: 2; }
   .builder__slot:nth-child(3) { z-index: 1; }
 
+  /* Re-assert the hover lift here: the per-slot z-index above (later in the
+     source) would otherwise override the base rule at equal specificity. */
+  .builder__slot:hover,
+  .builder__slot:focus-within {
+    z-index: 20;
+  }
+
   .catalog__panel {
     margin-inline: 0;
     padding-block: var(--space-10) var(--space-8);
@@ -1059,7 +1110,7 @@ button {
 
 
 /* =========================================================
-   Wide — 1200+ : larger scoops in the catalog cards
+   Wide \u2014 1200+ : larger scoops in the catalog cards
    ========================================================= */
 @media (min-width: 1200px) {
   .card__media {
@@ -1072,7 +1123,7 @@ button {
 }
 
 /* =========================================================
-   Desktop — 1440+ : two-column composition
+   Desktop \u2014 1440+ : two-column composition
    ========================================================= */
 @media (min-width: 1440px) {
   .catalog__inner {

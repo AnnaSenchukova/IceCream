@@ -168,16 +168,7 @@
       slot.classList.toggle('builder__slot--filled', filled);
       slot.classList.toggle('builder__slot--empty', !filled);
       if (filled) {
-        slot.style.removeProperty('--slot-number');
         slot.append(buildScoop(scoop));
-      } else if (hasInteracted) {
-        /* After the user starts interacting, empty slots are numbered by their
-           order index: scoopIndex + 1. So with 2 scoops in, the only empty slot
-           shows 3; remove one -> empties show 2 and 3; remove all -> 1, 2, 3. */
-        slot.style.setProperty('--slot-number', `'${scoopIndex + 1}'`);
-      } else {
-        /* Untouched builder: keep the default markup/CSS numbering. */
-        slot.style.removeProperty('--slot-number');
       }
     }
   }
