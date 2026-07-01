@@ -6,7 +6,7 @@
   const TEXT = {
     buttonReady: 'Положить в корзину',
     buttonBuild: 'Собери мороженое',
-    currency: ' ₽',
+    currency: ' ₽',
     removeLabel: 'Удалить шарик: '
   };
 

@@ -116,28 +116,28 @@
   --transition-slow: 360ms ease;
 
   /* Color */
-  --color-bg: #f7f3ee;
-  --color-bg-accent: #ddb2ad;
+  --color-bg: #f5e7b8;
+  --color-bg-accent: #3f2f2a;
   --color-bg-overlay-soft: rgba(59, 47, 42, 0.14);
 
   --color-border: #e8ddd2;
 
   --color-text-primary: #3b2f2a;
   --color-text-secondary: #7e6d66;
-  --color-text-inverse: #fffaf5;
+  --color-text-inverse: #f5e7b8;
 
   --color-button-bg: #3f2f2a;
   --color-button-bg-disabled: #cbbdb3;
   --color-button-text-disabled: #8a7d74;
   --color-button-bg-hover: #513d36;
   --color-button-bg-active: #2f221e;
-  --color-button-text: #fffaf5;
+  --color-button-text: #f5e7b8;
 
-  --color-badge-bg: #f3e3d2;
-  --color-badge-text: #5b4337;
+  --color-badge-bg: #f5e7b8;
+  --color-badge-text: #3f2f2a;
 
   --color-icon-primary: #3b2f2a;
-  --color-icon-inverse: #fffaf5;
+  --color-icon-inverse: #f5e7b8;
 
   /* Flavor scoop colors */
   --flavor-vanilla: #ecdcc0;
@@ -385,7 +385,7 @@ button {
 /* builder overlaps under the accent panel on mobile */
 .catalog__builder {
   position: relative;
-  z-index: auto;
+  z-index: 1;
   margin-bottom: 0;
 }
 
@@ -475,7 +475,7 @@ button {
 
 .card:hover .card__media,
 .card:focus-visible .card__media {
-  outline: 6px solid var(--color-border);
+  outline: 6px solid var(--color-bg);
   border-radius: 50%;
 }
 
@@ -560,7 +560,7 @@ button {
   font-size: var(--text-h4);
   line-height: var(--leading-full);
   text-transform: uppercase;
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
 }
 
 .card--selected .card__media {
@@ -810,7 +810,9 @@ button {
 }
 
 .builder__button--ready {
-  background-color: var(--color-button-bg);
+  color: var(--color-button-bg);              /* коричневый текст */
+  background-color: var(--color-bg);          /* сливочный фон (butter) */
+  border: 2px solid var(--color-button-bg);   /* коричневая обводка 2px */
 }
 
 /* ---- footer ---- */
@@ -861,7 +863,7 @@ button {
 /* Keep the whole builder (incl. the button) above the panel so the overlapping
    flavor panel never covers the call-to-action. */
 .catalog__builder {
-  z-index: auto;
+  z-index: 3;
 }
 
 
@@ -909,6 +911,13 @@ button {
   /* The rising ice cream must stay BELOW the catalog panel. */
   .builder__visual {
     z-index: 1;
+  }
+
+  /* Neutralize the builder's own stacking context (base z-index:3) so its
+     children compare against the panel directly: visual(1) < panel(5) < button(6).
+     Otherwise ALL builder children get trapped under/over the panel together. */
+  .catalog__builder {
+    z-index: auto;
   }
 
   /* Keep the build button clickable and on top of everything. */
