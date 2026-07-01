@@ -267,6 +267,7 @@
     checkout();
   });
 
+
   const builderEl = document.querySelector('[data-builder]');
   if (builderEl) builderEl.classList.add('builder--ready');
 

@@ -85,7 +85,7 @@
   --space-12: 96px;
 
   /* Radius */
-  --radius-block: 96px;
+  --radius-block: clamp(40px, 8vw + 16px, 96px);
   --radius-round: 50%;
   --radius-pill: 9999px;
 
@@ -319,7 +319,7 @@ button {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-h1-mobile);
-  line-height: var(--leading-tight);
+  line-height: var(--leading-snug);
   letter-spacing: var(--tracking-h1);
   text-transform: uppercase;
   text-align: center;
@@ -377,9 +377,9 @@ button {
 
 /* The flavor grid keeps the container max-width + inner gutters, centered. */
 .catalog__list {
-  max-width: 1500px;
-  margin-inline: auto;
-  padding-inline: var(--space-container);
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
 }
 
 .catalog__pill {
@@ -405,7 +405,7 @@ button {
 .catalog__list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-6) var(--space-3);
+  gap: 0;
 }
 
 /* ---- card (flavor) ---- */
@@ -440,8 +440,10 @@ button {
 .card__media {
   order: -1;
   position: relative;
-  width: var(--size-ice-cream-mobile);
-  height: var(--size-ice-cream-mobile);
+  width: 100%;
+  max-width: clamp(150px, 36vw, 277px);
+  height: auto;
+  aspect-ratio: 1;
   border-radius: var(--radius-round);
   overflow: hidden;
   background: var(--gradient-scoop-sheen),
@@ -836,12 +838,123 @@ button {
 }
 
 
+
+/* =========================================================
+   Mobile (<=767): two-column layout + flavor slider
+   ========================================================= */
+@media (max-width: 767px) {
+  /* Full-bleed slider with an EXACT half-card peek on both sides at any width.
+     Everything is derived from a single card-width var so the visible fraction
+     of the neighbouring scoops never drifts when the screen resizes. */
+  .catalog__list {
+    --slide-card: 64vw;            /* width of one card */
+    --slide-gap: var(--space-3);   /* gap between cards */
+    display: flex;
+    gap: var(--slide-gap);
+    /* Side gutter = half a card + one gap, so a snapped card is centered and
+       exactly half of each neighbour shows past the screen edges. */
+    padding-inline: calc(var(--slide-card) / 2 + var(--slide-gap));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Hide the horizontal scrollbar (Firefox/IE + WebKit below). */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .catalog__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalog__card {
+    flex: 0 0 var(--slide-card);
+    scroll-snap-align: center;
+  }
+
+  /* ---- mobile fine-tuning ---- */
+  /* The pink slider panel has no rounded corners on mobile. */
+  .catalog__panel {
+    border-radius: 0;
+  }
+
+  /* Build button spans the full window width. */
+  .builder__button {
+    max-width: none;
+  }
+
+  /* Builder total price sits in the flow, ~32px above the button. */
+  .builder__price {
+    position: static;
+    top: auto;
+    left: auto;
+    margin-bottom: var(--space-4);
+    text-align: center;
+  }
+
+  /* Slider card width. */
+  .catalog__list {
+    --slide-card: 50vw;
+  }
+
+  /* Card: no outer margins; title spaced 16px under the image. */
+  .card {
+    margin: 0;
+  }
+
+  .card__title {
+    margin-top: var(--space-2);
+  }
+
+  /* Price plate: 24px up from the photo bottom, flush to the side (left 0). */
+  .card__price {
+    left: 0;
+    bottom: 24px;
+  }
+
+  /* Slider list: small vertical margins (32px top & bottom). */
+  .catalog__list {
+    margin-block: var(--space-4);
+  }
+}
+
+
 /* =========================================================
    Tablet — 768+
    ========================================================= */
 @media (min-width: 768px) {
   :root {
     --space-container: 64px;
+  }
+
+  /* Two columns from tablet up: builder on the right, catalog on the left,
+     builder stretched to the full row height. */
+  .catalog__inner {
+    flex-direction: row-reverse;
+    align-items: stretch;
+    gap: var(--space-6);
+  }
+
+  .catalog__builder {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .catalog__panel {
+    flex: 1 1 auto;
+  }
+
+  /* Flavor list returns to a static grid (no slider) from tablet up. */
+  .catalog__list {
+    display: grid;
+    padding-inline: 0;
+    overflow: visible;
+  }
+
+  .catalog__card {
+    flex: initial;
   }
 
   /* Undo the mobile cone clipping — show the full ice cream again */
@@ -943,13 +1056,13 @@ button {
     max-width: none;
     margin-inline: 0;
     padding-inline: 0;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-10) var(--space-6);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    justify-content: center;
   }
 
   .card__media {
-    width: var(--size-ice-cream);
-    height: var(--size-ice-cream);
+    max-width: var(--size-ice-cream-mobile);
   }
 
   .card__price {
@@ -962,6 +1075,20 @@ button {
 
   .builder__cone-img {
     width: 220px;
+  }
+}
+
+
+/* =========================================================
+   Wide — 1200+ : larger scoops in the catalog cards
+   ========================================================= */
+@media (min-width: 1200px) {
+  .card__media {
+    max-width: var(--size-ice-cream);
+  }
+
+  .catalog__list {
+    grid-template-columns: repeat(auto-fit, minmax(267px, 1fr));
   }
 }
 
