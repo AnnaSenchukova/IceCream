@@ -33,21 +33,21 @@
    ========================================================= */
 :root {
   /* =======================================================
-     \u2699\ufe0f  \u041d\u0410\u0421\u0422\u0420\u041e\u0419\u041a\u0418  \u2014  \u043c\u0435\u043d\u044f\u0439 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f \u0417\u0414\u0415\u0421\u042c, \u043d\u0435 \u0443\u0433\u043b\u0443\u0431\u043b\u044f\u044f\u0441\u044c \u0432 \u043a\u043e\u0434.
+     ⚙️  НАСТРОЙКИ  —  меняй значения ЗДЕСЬ, не углубляясь в код.
      ======================================================= */
 
-  /* \u0420\u0430\u0437\u043c\u0435\u0440 \u0448\u0430\u0440\u0438\u043a\u0430 \u043c\u043e\u0440\u043e\u0436\u0435\u043d\u043e\u0433\u043e */
-  --size-ice-cream: 267px;                        /* \u043a\u0440\u0443\u043f\u043d\u044b\u0439 \u0448\u0430\u0440\u0438\u043a (1200+) */
-  --size-ice-cream-mobile: 150px;                 /* \u043c\u0435\u043b\u043a\u0438\u0439 \u0448\u0430\u0440\u0438\u043a (\u043c\u043e\u0431\u0438\u043b\u0430/\u043f\u043b\u0430\u043d\u0448\u0435\u0442) */
-  --size-ice-cream-fluid: clamp(150px, 36vw, 277px); /* \u0440\u0435\u0437\u0438\u043d\u043e\u0432\u044b\u0439 \u0440\u043e\u0441\u0442 150\u2192277 */
+  /* Размер шарика мороженого */
+  --size-ice-cream: 267px;                        /* крупный шарик (1200+) */
+  --size-ice-cream-mobile: 150px;                 /* мелкий шарик (мобила/планшет) */
+  --size-ice-cream-fluid: clamp(150px, 36vw, 277px); /* резиновый рост 150→277 */
 
-  /* \u041c\u043e\u0431\u0438\u043b\u044c\u043d\u044b\u0439 \u0441\u043b\u0430\u0439\u0434\u0435\u0440 \u0432\u043a\u0443\u0441\u043e\u0432 */
-  --slide-card: 50vw;   /* \u0448\u0438\u0440\u0438\u043d\u0430 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0438 \u0432 \u043b\u0435\u043d\u0442\u0435 (0.5 \u044d\u043a\u0440\u0430\u043d\u0430) */
-  --slide-gap: 24px;    /* \u043f\u0440\u043e\u043c\u0435\u0436\u0443\u0442\u043e\u043a \u043c\u0435\u0436\u0434\u0443 \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0430\u043c\u0438 */
+  /* Мобильный слайдер вкусов */
+  --slide-card: 50vw;   /* ширина карточки в ленте (0.5 экрана) */
+  --slide-gap: 24px;    /* промежуток между карточками */
 
-  /* \u0411\u043e\u043a\u043e\u0432\u044b\u0435 \u043f\u043e\u043b\u044f \u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440\u0430 */
-  --gutter-mobile: 16px;   /* \u043f\u043e\u043b\u044f \u043f\u043e \u043a\u0440\u0430\u044f\u043c \u043d\u0430 \u043c\u043e\u0431\u0438\u043b\u0435 */
-  --gutter-desktop: 64px;  /* \u043f\u043e\u043b\u044f \u043f\u043e \u043a\u0440\u0430\u044f\u043c \u043e\u0442 \u043f\u043b\u0430\u043d\u0448\u0435\u0442\u0430 */
+  /* Боковые поля контейнера */
+  --gutter-mobile: 16px;   /* поля по краям на мобиле */
+  --gutter-desktop: 64px;  /* поля по краям от планшета */
 
   /* ======================================================= */
 
@@ -153,6 +153,12 @@
 
   /* Shadows */
   --shadow-card-selected: 0 0 0 3px var(--color-button-bg);
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --space-container: var(--gutter-desktop);
+  }
 }
 
 /* =========================================================
@@ -340,7 +346,7 @@ button {
 }
 
 .intro__title {
-  margin-block: 0 var(--space-3);
+  margin-block: var(--space-6) var(--space-3);
   margin-inline: 0;
   font-family: var(--font-display);
   font-weight: 700;
@@ -386,7 +392,8 @@ button {
 .catalog__builder {
   position: relative;
   z-index: 1;
-  margin-bottom: 0;
+  max-width: max-content;
+  margin: 0 auto;
 }
 
 .catalog__panel {
@@ -532,8 +539,9 @@ button {
 .card__badge {
   position: absolute;
   top: 6px;
-  right: 6px;
+  right: 0;
   z-index: 4;
+  min-width: 64px;
   margin: 0;
   padding-block: 4px;
   padding-inline: var(--space-1);
@@ -544,6 +552,7 @@ button {
   text-transform: uppercase;
   color: var(--color-badge-text);
   background-color: var(--color-badge-bg);
+  border: 1px solid var(--color-button-bg);
   border-radius: var(--radius-pill);
 }
 
@@ -819,13 +828,12 @@ button {
 .page__footer {
   margin-top: auto;
   padding-block: var(--space-6);
-  padding-inline: 0;
 }
 
 .footer__text {
   font-family: var(--font-body);
   font-size: var(--text-footer);
-  color: var(--color-text-secondary);
+  color: var(--color-button-text-disabled);
 }
 
 
@@ -847,7 +855,7 @@ button {
   display: none;
 }
 
-/* Hide the "\u0412\u044b\u0431\u0435\u0440\u0438 \u0432\u043a\u0443\u0441" panel pill on mobile \u2014 the "\u0421\u043e\u0431\u0435\u0440\u0438 \u043c\u043e\u0440\u043e\u0436\u0435\u043d\u043e\u0435"
+/* Hide the "Выбери вкус" panel pill on mobile — the "Собери мороженое"
    builder button below the cone is the only call to action here. */
 .catalog__pill {
   display: none;
@@ -860,11 +868,6 @@ button {
   margin-top: 0;
 }
 
-/* Keep the whole builder (incl. the button) above the panel so the overlapping
-   flavor panel never covers the call-to-action. */
-.catalog__builder {
-  z-index: 3;
-}
 
 
 
@@ -957,17 +960,18 @@ button {
 
 
 /* =========================================================
-   Tablet \u2014 768+
+   Tablet — 768+
    ========================================================= */
 @media (min-width: 768px) {
-  :root {
-    --space-container: var(--gutter-desktop);
-  }
 
   /* ---- Desktop header: full chocolate bar, cream text & icons ---- */
   .page__header {
     background-color: var(--color-button-bg);
     padding-inline: var(--space-4);
+  }
+
+  .page__footer {
+    background-color: var(--color-button-bg);
   }
 
   .logo,
@@ -999,6 +1003,7 @@ button {
     background-color: var(--color-bg-accent);
   }
 
+
   .intro__title {
     color: var(--color-text-inverse);
     text-align: center;
@@ -1016,14 +1021,14 @@ button {
   .catalog__inner {
     flex-direction: row-reverse;
     align-items: stretch;
-    gap: var(--space-6);
   }
 
   .catalog__builder {
-    flex: 0 0 300px;
+    flex: 0 0 350px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-left: var(--space-2);
   }
 
   .catalog__panel {
@@ -1041,7 +1046,7 @@ button {
     flex: initial;
   }
 
-  /* Undo the mobile cone clipping \u2014 show the full ice cream again */
+  /* Undo the mobile cone clipping — show the full ice cream again */
   .builder__visual {
     height: auto;
     aspect-ratio: auto;
@@ -1049,11 +1054,12 @@ button {
     overflow: visible;
   }
 
-  .builder__status {
-    display: block;
+  .builder__cone-mockup {
+    top: 0;
   }
 
   .builder__button {
+    order: 2;
     margin-top: 0;
     width: auto;
     min-width: 100%;
@@ -1065,15 +1071,15 @@ button {
     margin-top: 0;
   }
 
-  /* Bring back the "\u0412\u044b\u0431\u0435\u0440\u0438 \u0432\u043a\u0443\u0441" panel pill from tablet up */
+  /* Bring back the "Выбери вкус" panel pill from tablet up */
   .catalog__pill {
     position: static;
     left: auto;
     top: auto;
     transform: none;
     display: block;
-    align-self: flex-end;
-    margin: 0 0 var(--space-4) auto;
+    align-self: flex-start;
+    margin: 0 auto var(--space-4) 0;
     padding: 0;
     width: auto;
     font-family: var(--font-display);
@@ -1083,7 +1089,7 @@ button {
     color: var(--color-text-primary);
     background-color: transparent;
     border-radius: 0;
-    text-align: right;
+    text-align: left;
     transition: color var(--transition-fast);
   }
 
@@ -1097,27 +1103,24 @@ button {
   }
 
 
-  /* Restore builder spacing and the overlap offset */
-  .catalog__builder {
-    margin-bottom: -56px;
-  }
-
-  .builder {
-    padding-block: var(--space-4) var(--space-10);
-    padding-inline: 0;
-  }
 
   .builder__title-pill {
     display: none;
   }
 
-  /* Price back in normal flow (drop the dark mobile plate) */
+  /* Price back in normal flow (drop the dark mobile plate); pushed down so it
+     sits just above the build button. */
   .builder__price {
     position: static;
-    padding: 0;
-    color: var(--color-text-primary);
-    background-color: transparent;
-    border-radius: 0;
+    order: 1;
+    align-self: flex-start;
+    min-width: 165px;
+    margin-bottom: var(--space-2);
+    padding-block: var(--space-1);
+    padding-inline: var(--space-3);
+    color: var(--color-text-inverse);
+    background-color: var(--color-button-bg);
+    border-radius: var(--radius-pill);
   }
 
   /* Cone returns to fixed width; drop the mobile cap */
@@ -1130,9 +1133,9 @@ button {
      (mobile) rules 1:1; only .builder__slots width/aspect drive the scale. */
   .builder__slots {
     position: absolute;
-    top: 0;
+    top: 34px;
     bottom: auto;
-    left: 47%;
+    left: 44%;
     transform: translateX(-50%);
     width: 84%;
     height: auto;
@@ -1161,13 +1164,14 @@ button {
   }
 
   .catalog__panel {
+    margin-block: var(--space-4);
     margin-inline: 0;
     padding-block: var(--space-8);
-    padding-inline: var(--space-8);
+    padding-right: var(--space-2);
     /* Transparent-cream backdrop (same butter tone as the page), with only a
-       2px brown border on the right edge. */
+       2px brown border on the right edge. No rounded corners. */
     background-color: transparent;
-    border-right: 2px solid var(--color-button-bg);
+    border-right: 2px solid var(--color-border);
     border-radius: 0;
   }
 
@@ -1186,6 +1190,30 @@ button {
 
   .card__title {
     color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  /* Hover outlines the scoop in brown. */
+  .card:hover .card__media,
+  .card:focus-visible .card__media {
+    outline-color: var(--color-button-bg);
+  }
+
+  /* Image + content centered inside the card. */
+  .card {
+    align-items: center;
+    text-align: center;
+  }
+
+  .card__media-wrap,
+  .card__media {
+    width: max-content;
+    margin-inline: auto;
+  }
+
+  /* Smaller price font in the catalog cards. */
+  .card__price {
+    font-size: var(--text-h4);
   }
 
   .builder__cone-mockup {
@@ -1193,13 +1221,13 @@ button {
   }
 
   .builder__cone-img {
-    width: 360px;
+    width: 350px;
   }
 }
 
 
 /* =========================================================
-   Wide \u2014 1200+ : larger scoops in the catalog cards
+   Wide — 1200+ : larger scoops in the catalog cards
    ========================================================= */
 @media (min-width: 1200px) {
   .card__media {
@@ -1212,13 +1240,12 @@ button {
 }
 
 /* =========================================================
-   Desktop \u2014 1440+ : two-column composition
+   Desktop — 1440+ : two-column composition
    ========================================================= */
-@media (min-width: 1440px) {
+@media (min-width: 1200px) {
   .catalog__inner {
     flex-direction: row-reverse;
     align-items: flex-start;
-    gap: var(--space-8);
   }
 
   .catalog__builder {
@@ -1229,12 +1256,12 @@ button {
     padding: var(--space-6);
     background-color: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-block);
+    border-radius: 0;
   }
 
   .catalog__panel {
     flex: 1 1 auto;
-    border-radius: var(--radius-block);
+    border-radius: 0;
   }
 
   /* Keep the mobile-like absolute scoop layout + enlarged cone from 768; just
